@@ -43,7 +43,7 @@ $(document).ready(function(){
 
 ## Options
 
-| Option | Default value | type | Description |
+| Option | Default value | Type | Description |
 | --- | --- | --- | --- |
 | onInit | null | function | Callback function run on initialization |
 | onResize | null | function | Callback on resize |
