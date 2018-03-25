@@ -1,5 +1,8 @@
 # EqualHeightRows
-jQuery Equal height per row
+
+Based on how much items fit on one row the script calculates which items belong to which row. The script will equalHeight all items based on which row they belong to. 
+
+Using the innerSelectors option it's also possible to equalHeight elements within each item. With the innerSelectors option you can for example equalHeight all item titles per row. See [simple-example.html](example/simple-example.html)
 
 ## Usage
 
@@ -20,6 +23,22 @@ $(document).ready(function(){
         <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
     </div>
 </div>
+```
+
+*Include to your website:*
+```html
+<html>
+    <body>
+        ... your code ...
+        
+        <script src="equalHeightRowPlugin.min.js" type="text/javascript"></script>
+
+        <script type="text/javascript">
+            $('#example').equalHeightRows();
+        </script>
+    </body>
+</html>
+
 ```
 
 ## Options
