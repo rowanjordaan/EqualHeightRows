@@ -27,7 +27,7 @@ $(document).ready(function(){
 ```html
 <html>
     <body>
-        ... your code ..
+        ... your code ...
         
         <script src="equalHeightRowPlugin.min.js" type="text/javascript"></script>
 
