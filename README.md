@@ -1,6 +1,8 @@
 # EqualHeightRows
 
-Based on how much items fit on one row the script calculates which items belong to which row. The script will equalHeight all items based on which row they belong to. Using the innerSelectors option it's also possible to equalHeight elements within each item. With the innerSelectors option you can for example equalHeight all item titles per row. See [simple-example.html](example/simple-example.html)
+Based on how much items fit on one row the script calculates which items belong to which row. The script will equalHeight all items based on which row they belong to. 
+
+Using the innerSelectors option it's also possible to equalHeight elements within each item. With the innerSelectors option you can for example equalHeight all item titles per row. See [simple-example.html](example/simple-example.html)
 
 ## Usage
 
