@@ -90,7 +90,7 @@
 
                     // Go through each item of current row and remember the heighest item
                     $element.each(function(){
-                        var itemHeight = $(this).height();
+                        var itemHeight = $(this).outerHeight();
 
                         heighest = (itemHeight >= heighest) ? itemHeight : heighest;
                     });
@@ -114,6 +114,7 @@
                         // Run equalHeight for every inner selector
                         $.each(innerSelectors, function(int, selector){
                             equalHeight($rowItems.find(selector));
+                            equalHeight($rowItems);
                         });
                     }
                 });
