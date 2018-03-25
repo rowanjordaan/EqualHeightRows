@@ -7,7 +7,7 @@
             onResize: null, // Called on resize (expects function)
             itemSelector : '.item', // Class of item within the container selector,
             innerSelectors: null, // Comma seperated element selector for equal height within the items
-            method: 'offset' // Which method to calculate rows options: offset, width
+            calculationType: 'offset' // Which method to calculate rows options: offset, width
         }, options);
 
         var _this = this;
@@ -44,7 +44,7 @@
 
                     // Check if the next item is on a different row
                     function checkNextRow(){
-                        switch(settings.method){
+                        switch(settings.calculationType){
                             case 'width':
                                 var itemWidth = (Math.floor($(e).width() * 1 / 1));
                                 var nextItemWidth = $selector.find(settings.itemSelector + ':nth-child(n+'+ (i + 2) +')').width();
