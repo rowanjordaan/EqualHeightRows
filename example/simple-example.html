@@ -7,32 +7,56 @@
     <body>
         <div id="example" style="clear: both; overflow: hidden;">
             <div class="test" style="background: #111; float: left; width: 50%;">
+                <h2>A title</h2>
                 <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
             </div>
+
             <div class="test" style="background: #222; float: left; width: 50%;">
+                <h2>A title <br /> on two lines</h2>
                 <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
             </div>
+
             <div class="test" style="background: #333; float: left; width: 33.333333%;">
-                <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
-                <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
+                <h2>A title</h2>
+                <div class="text">
+                    <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
+                    <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
+                </div>
+                <span><a href="#">readmore</a></span>
             </div>
+
             <div class="test" style="background: #444; float: left; width: 33.333333%;">
-                <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
-                <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
-                <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
-                <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
-                <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
+                <h2>A title</h2>
+                <div class="text">
+                    <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
+                    <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
+                    <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
+                    <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
+                    <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
+                </div>
+                <span><a href="#">readmore</a></span>
             </div>
+
             <div class="test" style="background: #555; float: left; width: 33.333333%;">
-                <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
+                <h2>A title</h2>
+                <div class="text">
+                    <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
+                </div>
+                <span><a href="#">readmore</a></span>
             </div>
+
             <div class="test" style="background: #666; float: left; width: 100%;">
+                <h2>A title</h2>
                 <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet. Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet. Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet. Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
             </div>
+
             <div class="test" style="background: #777;; float: left; width: 50%">
+                <h2>A title</h2>
                 <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet. felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet</p>
             </div>
+
             <div class="test" style="background: #777;; float: left; width: 50%">
+                <h2>A title</h2>
                 <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet. felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet</p>
             </div>
         </div>
@@ -41,7 +65,8 @@
 
         <script type="text/javascript">
         $('#example').equalHeightRows({
-            itemSelector : '.test'
+            itemSelector : '.test',
+            innerSelectors : 'h2, .text'
         });
         </script>
     </body>
