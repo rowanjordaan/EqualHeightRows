@@ -22,7 +22,7 @@ $(document).ready(function(){
 </div>
 ```
 
-*Include to your website*
+*Include to your website:*
 ```html
 <html>
     <body>
