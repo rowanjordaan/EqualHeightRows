@@ -22,6 +22,22 @@ $(document).ready(function(){
 </div>
 ```
 
+*Include to your website*
+```html
+<html>
+    <body>
+        ... your code ..
+        
+        <script src="equalHeightRowPlugin.min.js" type="text/javascript"></script>
+
+        <script type="text/javascript">
+            $('#example').equalHeightRows();
+        </script>
+    </body>
+</html>
+
+```
+
 ## Options
 
 | Option | Default value | Description |
