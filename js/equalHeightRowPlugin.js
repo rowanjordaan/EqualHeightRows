@@ -6,7 +6,8 @@
             onInit: null, // Called on initialize (expects function)
             onResize: null, // Called on resize (expects function)
             itemSelector : '.item', // Class of item within the container selector,
-            innerSelectors: null // Comma seperated element selector for equal height within the items
+            innerSelectors: null, // Comma seperated element selector for equal height within the items
+            method: 'offset' // Which method to calculate rows options: offset, width
         }, options);
 
         var _this = this;
@@ -36,44 +37,40 @@
                 rows.itemWidthCount = 0; // Item width counter untill reached row width
 
                 $items.each(function(i, e){
-                    var itemWidth = (Math.floor($(this).outerWidth() * 1 / 1));
-                    var nextItemWidth = $selector.find(settings.itemSelector + ':nth-child(n+'+ (i + 2) +')').width();
-
-                    // Add current itemWidth to the counter
-                    rows.itemWidthCount = (rows.itemWidthCount + itemWidth);
-
-                    /*
-                    console.log('---');
-                    console.log(i + ') rows.currentRow: '+ rows.currentRow);
-                    console.log(i + ') rows.amount: '+ rows.amount);
-                    console.log(i + ') containerWidth: '+ containerWidth);
-                    console.log(i + ') itemWidth: ' + itemWidth);
-                    console.log(i + ') rows.itemWidthCount: ' + rows.itemWidthCount);
-                    console.log((rows.itemWidthCount + nextItemWidth) >= containerWidth);
-                    console.log(i + ') nextItemWidth: ' + nextItemWidth);
-                    console.log(i + ') nextItemWidth + width: ' + (rows.itemWidthCount + nextItemWidth));
-                    console.log(i + ') nextItemWidth + width: ' + ((Math.floor(rows.itemWidthCount * 100) / 100) + nextItemWidth));
-                    console.log(e);
-                    console.log('---');
-                    */
 
                     // Save last item in the row (gets overwritten each item untill reached last)
                     rows.rows['row' + rows.currentRow] = {};
                     rows.rows['row' + rows.currentRow].lastItem = (i+1);
 
-                    /*
-                        Increment row if either one of the following is true:
-                        If the width of the current counted items exceeds the width of the container
-                        If the loop reached the last item (ends row so it will save the first row item)
-                        If the current width of the counted items + the next item width exceeds the container width
-                    */
-                    if(rows.itemWidthCount >= containerWidth ||  (i + 1) >= rows.amount || Math.floor(rows.itemWidthCount + nextItemWidth) > containerWidth){
+                    // Check if the next item is on a different row
+                    function checkNextRow(){
+                        switch(settings.method){
+                            case 'width':
+                                var itemWidth = (Math.floor($(e).width() * 1 / 1));
+                                var nextItemWidth = $selector.find(settings.itemSelector + ':nth-child(n+'+ (i + 2) +')').width();
+
+                                // Add current itemWidth to the counter
+                                rows.itemWidthCount = (rows.itemWidthCount + itemWidth);
+
+                                return (rows.itemWidthCount >= containerWidth ||  (i + 1) >= rows.amount || Math.floor(rows.itemWidthCount + nextItemWidth) > containerWidth);
+                            break;
+
+                            default:
+                                var itemOffset = $(e).offset().top;
+                                var nextItemOffset = (rows.amount < (i + 2)) ? false : $items.filter(':nth-child('+ (i + 2) +')').offset().top;
+
+                                return (itemOffset != nextItemOffset);
+                            break;
+                        }
+                    }
+
+                    if(checkNextRow()){
                         // Calculate first row item
                         var rowItemDifference = (rows.previousRow == 0) ? rows.rows['row' + rows.currentRow].lastItem : (rows.rows['row' + rows.currentRow].lastItem - rows.rows['row' + rows.previousRow].lastItem);
                         var firstRowItem = ((rows.rows['row' + rows.currentRow].lastItem - rowItemDifference) + 1);
-                        rows.rows['row' + rows.currentRow].firstItem = firstRowItem; // Save  first row item
+                        rows.rows['row' + rows.currentRow].firstItem = firstRowItem; // Set first row item for current row
 
-                        rows.previousRow++; // Set previous row
+                        rows.previousRow = rows.currentRow; // Set previous row
                         rows.currentRow ++; // Increment row
                         rows.itemWidthCount = 0; // Reset counter so we can start counting for the new row
                     }
