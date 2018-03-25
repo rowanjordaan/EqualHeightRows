@@ -7,7 +7,6 @@
             onResize: null, // Called on resize (expects function)
             itemSelector : '.item', // Class of item within the container selector,
             innerSelectors: null, // Comma seperated element selector for equal height within the items
-            calculationType: 'offset' // Which method to calculate rows options: offset, width
         }, options);
 
         var _this = this;
@@ -44,24 +43,13 @@
 
                     // Check if the next item is on a different row
                     function checkNextRow(){
-                        switch(settings.calculationType){
-                            case 'width':
-                                var itemWidth = (Math.floor($(e).width() * 1 / 1));
-                                var nextItemWidth = $selector.find(settings.itemSelector + ':nth-child(n+'+ (i + 2) +')').width();
+                        var itemWidth = (Math.floor($(e).width() * 1 / 1));
+                        var nextItemWidth = $selector.find(settings.itemSelector + ':nth-child(n+'+ (i + 2) +')').width();
 
-                                // Add current itemWidth to the counter
-                                rows.itemWidthCount = (rows.itemWidthCount + itemWidth);
+                        // Add current itemWidth to the counter
+                        rows.itemWidthCount = (rows.itemWidthCount + itemWidth);
 
-                                return (rows.itemWidthCount >= containerWidth ||  (i + 1) >= rows.amount || Math.floor(rows.itemWidthCount + nextItemWidth) > containerWidth);
-                            break;
-
-                            default:
-                                var itemOffset = $(e).offset().top;
-                                var nextItemOffset = (rows.amount < (i + 2)) ? false : $items.filter(':nth-child('+ (i + 2) +')').offset().top;
-
-                                return (itemOffset != nextItemOffset);
-                            break;
-                        }
+                        return (rows.itemWidthCount >= containerWidth ||  (i + 1) >= rows.amount || Math.floor(rows.itemWidthCount + nextItemWidth) > containerWidth);
                     }
 
                     if(checkNextRow()){
