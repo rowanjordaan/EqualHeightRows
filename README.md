@@ -14,7 +14,7 @@ https://rowanjordaan.nl/equalHeightPlugin/example/example.html
 *Javascript:*
 ```javascript
 $(document).ready(function(){
-    $('#items').equalHeightRows();
+    $('#items').equalHeightRows( options );
 });
 ```
 
