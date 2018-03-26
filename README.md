@@ -27,11 +27,11 @@ $(document).ready(function(){
         <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
     </div>
     
-    <div class="item" style="background: #222; float: left; width: 33.3%;">
+    <div class="item" style="background: #33; float: left; width: 33.3%;">
         <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
     </div>
     
-    <div class="item" style="background: #222; float: left; width: 33.3%;">
+    <div class="item" style="background: #44; float: left; width: 33.3%;">
         <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
     </div>
 </div>
