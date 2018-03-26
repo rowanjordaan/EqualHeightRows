@@ -4,7 +4,8 @@ Based on how much items fit on one row the script calculates which items belong 
 
 Using the innerSelectors option it's also possible to equalHeight elements within each item. With the innerSelectors option you can for example equalHeight all item titles per row. See [simple-example.html](example/simple-example.html)
 
-Live Example:
+*Live Examples:*
+
 https://rowanjordaan.nl/equalHeightPlugin/example/simple-example.html
 https://rowanjordaan.nl/equalHeightPlugin/example/example.html
 
