@@ -49,3 +49,6 @@ $(document).ready(function(){
 | onResize | null | function | Callback on resize |
 | itemSelector | .item | string |Element that acts as Item Selector |
 | innerSelectors | null | string | Elements within the itemSelector to equalHeight aswell. Comma seperated. (example: '.title, .text') will give all the .title divs on the same row the same height and all the .text divs on the same row the same height |
+
+## Requirements
+- jQuery
