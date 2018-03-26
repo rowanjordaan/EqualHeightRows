@@ -25,7 +25,7 @@
                 'onInit' : settings.onInit,
                 'onResize' : settings.onResize,
                 'itemSelector' : settings.itemSelector,
-                'innerSelectors' : (settings.innerSelectors != null) ? nullsettings.innerSelectors.split(',') : settings.innerSelectors
+                'innerSelectors' : (settings.innerSelectors != null) ? settings.innerSelectors.split(',') : settings.innerSelectors
             }
 
             /*
