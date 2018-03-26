@@ -18,6 +18,17 @@
             var $items = $selector.find(settings.itemSelector)
 
             /*
+            *   Instance
+            */
+            var instance = {
+                'element' : base,
+                'onInit' : settings.onInit,
+                'onResize' : settings.onResize,
+                'itemSelector' : settings.itemSelector,
+                'innerSelectors' : settings.innerSelectors.split(',')
+            }
+
+            /*
             *   Equal height rows
             */
             base.execute = function(){
@@ -29,7 +40,7 @@
                 // Initialize variables
                 var containerWidth = $selector.width();
                 var rows = {}; // keeping things clear
-                rows.amount = $items.length;
+                rows.itemAmount = $items.length;
                 rows.rows = {}; // Save rows information
                 rows.previousRow = 0; // Remember previous row
                 rows.currentRow = 1; // Remember current row
@@ -49,7 +60,7 @@
                         // Add current itemWidth to the counter
                         rows.itemWidthCount = (rows.itemWidthCount + itemWidth);
 
-                        return (rows.itemWidthCount >= containerWidth ||  (i + 1) >= rows.amount || Math.floor(rows.itemWidthCount + nextItemWidth) > containerWidth);
+                        return (rows.itemWidthCount >= containerWidth ||  (i + 1) >= rows.itemAmount || Math.floor(rows.itemWidthCount + nextItemWidth) > containerWidth);
                     }
 
                     if(checkNextRow()){
@@ -103,13 +114,18 @@
                         });
                     }
                 });
+
+                // Set instance variables
+                instance.rows = rows.rows;
+                instance.itemAmount = rows.itemAmount;
+                instance.rowAmount = (rows.currentRow - 1);
             };
 
             $(window).on('resize', function(){
                 base.execute();
 
                 if ( $.isFunction( settings.onResize ) ) {
-                    settings.onResize( base );
+                    settings.onResize( instance );
                 }
             });
 
@@ -117,7 +133,7 @@
                 base.execute();
 
                 if ( $.isFunction( settings.onInit ) ) {
-                    settings.onInit( base );
+                    settings.onInit( instance );
                 }
             };
 

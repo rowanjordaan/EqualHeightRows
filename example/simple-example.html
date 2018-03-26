@@ -51,8 +51,8 @@
             </div>
 
             <div class="test" style="background: #777;; float: left; width: 50%">
-                <h2>A title</h2>
-                <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet. felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet</p>
+              <h2>A title</h2>
+              <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet. felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet</p>
             </div>
 
             <div class="test" style="background: #777;; float: left; width: 50%">
@@ -66,7 +66,10 @@
         <script type="text/javascript">
         $('#example').equalHeightRows({
             itemSelector : '.test',
-            innerSelectors : 'h2, .text'
+            innerSelectors : 'h2, .text',
+            onInit : function(e){
+                console.log(e);
+            }
         });
         </script>
     </body>
