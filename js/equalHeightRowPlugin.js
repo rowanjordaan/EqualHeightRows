@@ -54,8 +54,8 @@
 
                     // Check if the next item is on a different row
                     function checkNextRow(){
-                        var itemWidth = (Math.floor($(e).width() * 1 / 1));
-                        var nextItemWidth = $selector.find(settings.itemSelector + ':nth-child(n+'+ (i + 2) +')').width();
+                        var itemWidth = parseFloat( $(e).css('width') );
+                        var nextItemWidth =  parseFloat( $selector.find(settings.itemSelector + ':nth-child('+ (i + 2) +')').css('width') );
 
                         // Add current itemWidth to the counter
                         rows.itemWidthCount = (rows.itemWidthCount + itemWidth);
