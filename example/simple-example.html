@@ -5,24 +5,58 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
         <style type="text/css">
+            *{
+                box-sizing: border-box;
+            }
+
             body{
                 color: #FFF;
+                margin: 0px;
+                font-family: Arial;
+            }
+
+            h1{
+                color: #000;
             }
 
             h2{
                 background: rgba(118, 255, 186, 0.3);
+                margin: 0;
+            }
+
+            p{
+                margin: 10px 0;
             }
 
             .text{
                 background: rgba(255, 28, 28, 0.28);
             }
 
+            .test{
+                margin-bottom: 10px;
+                padding: 10px;
+            }
+
             a{
                 color: #FFF;
+            }
+
+            @media only screen and (max-width: 900px) {
+                .test{
+                    width: 50% !important;
+                }
+            }
+
+            @media only screen and (max-width: 600px) {
+                .test{
+                    width: 100% !important;
+                }
             }
         </style>
     </head>
     <body>
+        <h1>#example .rowan</h1>
+
         <div id="example" class="rowan" style="clear: both; overflow: hidden;">
             <div class="test" style="background: #111; float: left; width: 50%; overflow: hidden;">
                 <h2>A title</h2>
@@ -78,11 +112,9 @@
                 <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet. felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet</p>
             </div>
         </div>
-        <br />
 
-        <br />
+        <h1>#test .rowan</h1>
 
-        <br />
         <div id="test" class="rowan" style="clear: both; overflow: hidden;">
             <div class="test" style="background: #777;; float: left; width: 50%">
               <h2>A title</h2>
@@ -139,11 +171,8 @@
             </div>
         </div>
 
-        <br />
+        <h1>#example .potato</h1>
 
-        <br />
-
-        <br />
         <div id="example" class="potato" style="clear: both; overflow: hidden;">
             <div class="test" style="background: #777;; float: left; width: 100%">
               <h2>A title</h2>
@@ -172,17 +201,15 @@
             itemSelector : '.test',
             innerSelectors : 'h2, .text',
             onInit : function(e){
-                console.log(e);
+
             }
         });
-
-        console.log(rowan);
 
         var potato = $('.potato').equalHeightRows({
             itemSelector : '.test',
             innerSelectors : 'h2, .text',
             onInit : function(e){
-                console.log(e);
+
             }
         });
         </script>
