@@ -10,6 +10,7 @@
         }, options);
 
         var _this = this;
+        var _$this = $(_this);
 
         var output = {};
 
@@ -33,7 +34,7 @@
             $element.css({'height' : heighest + 'px'});
         }
 
-        output.execute = function(element){
+        _execute = function(element){
             /*
             *   Calculate rows and save row details
             */
@@ -106,7 +107,20 @@
             return rowData;
         };
 
-        // Run plugin for every found element
+        output.execute = function(){
+            var data = {};
+
+            // Re execute for every instance
+            _$this.each(function(i, e){
+                data[i] = _execute($(e));
+            });
+
+            return data;
+        };
+
+        /*
+            Run plugin for every found element
+        */
         this.each(function(instanceNumber, instanceElement){
             var base = instanceElement;
             var instance = {};
@@ -114,7 +128,7 @@
             instance.items = instance.selector.find(settings.itemSelector);
 
             $(window).on('resize', function(){
-                output.execute(instanceElement);
+                _execute(instanceElement);
 
                 if ( $.isFunction( settings.onResize ) ) {
                     settings.onResize( instance );
@@ -122,7 +136,7 @@
             });
 
             instance.Initialize = function(){
-                output.execute(instanceElement);
+                _execute(instanceElement);
 
                 if ( $.isFunction( settings.onInit ) ) {
                     settings.onInit( instance );
