@@ -1,144 +1,128 @@
-var equalHeightRows = function(options){
-    // Extend default settings with options
-    var settings = $.extend({
-        onInit: null, // Called on initialize (expects function)
-        onResize: null, // Called on resize (expects function)
-        itemsSelector : '#items',
-        itemSelector : '.item', // Class of item within the container selector,
-        innerSelectors: null, // Comma seperated element selector for equal height within the items
-    }, options);
+(function($){
+    $.fn.equalHeightRows = function(options){
 
-    var _this = this;
-    _this.selector = $(settings.itemsSelector);
+        // Extend default settings with options
+        var settings = $.extend({
+            onInit: null, // Called on initialize (expects function)
+            onResize: null, // Called on resize (expects function)
+            itemSelector : '.item', // Class of item within the container selector,
+            innerSelectors: null, // Comma seperated element selector for equal height within the items
+        }, options);
 
-    /*
-    *  Execute equal height calculation
-    */
-    _this.execute = function($selector){
-        var $items = $selector.find(settings.itemSelector)
+        var _this = this;
 
-        /*
-        *   Calculate rows and save row details
-        */
+        // Run plugin for every found element
+        this.each(function(instanceNumber, e){
+            var base = e;
+            var instance = {};
+            instance.selector = $(e);
+            instance.items = instance.selector.find(settings.itemSelector);
 
-        // Initialize variables
-        var containerWidth = $selector.width();
-        var rows = {}; // keeping things clear
-        rows.itemAmount = $items.length;
-        rows.rows = {}; // Save rows information
-        rows.previousRow = 0; // Remember previous row
-        rows.currentRow = 1; // Remember current row
-        rows.itemWidthCount = 0; // Item width counter untill reached row width
+            /*
+            *   Equal height rows
+            */
+            instance.execute = function(){
+                /*
+                *   Calculate rows and save row details
+                */
 
-        $items.each(function(i, e){
+                // Initialize variables
+                var containerWidth = instance.selector.width();
+                instance.rows = {}; // keeping things clear
+                instance.rowsitemAmount = instance.items.length;
+                instance.rowsData = {}; // Save rows information
+                instance.rowspreviousRow = 0; // Remember previous row
+                instance.rowscurrentRow = 1; // Remember current row
+                instance.rowsitemWidthCount = 0; // Item width counter untill reached row width
 
-            // Save last item in the row (gets overwritten each item untill reached last)
-            rows.rows['row' + rows.currentRow] = {};
-            rows.rows['row' + rows.currentRow].lastItem = (i+1);
+                instance.items.each(function(i, e){
 
-            // Check if the next item is on a different row
-            function checkNextRow(){
-                var itemWidth = parseFloat( $(e).css('width') );
-                var nextItemWidth =  parseFloat( $selector.find(settings.itemSelector + ':nth-child('+ (i + 2) +')').css('width') );
+                    // Save last item in the row (gets overwritten each item untill reached last)
+                    instance.rowsData['row' + instance.rowscurrentRow] = {};
+                    instance.rowsData['row' + instance.rowscurrentRow].lastItem = (i+1);
 
-                // Add current itemWidth to the counter
-                rows.itemWidthCount = (rows.itemWidthCount + itemWidth);
+                    // Check if the next item is on a different row
+                    function checkNextRow(){
+                        var itemWidth = parseFloat( $(e).css('width') );
+                        var nextItemWidth =  parseFloat( instance.selector.find(settings.itemSelector + ':nth-child('+ (i + 2) +')').css('width') );
 
-                return (rows.itemWidthCount >= containerWidth ||  (i + 1) >= rows.itemAmount || Math.floor(rows.itemWidthCount + nextItemWidth) > containerWidth);
-            }
+                        // Add current itemWidth to the counter
+                        instance.rowsitemWidthCount = (instance.rowsitemWidthCount + itemWidth);
 
-            if(checkNextRow()){
-                // Calculate first row item
-                var rowItemDifference = (rows.previousRow == 0) ? rows.rows['row' + rows.currentRow].lastItem : (rows.rows['row' + rows.currentRow].lastItem - rows.rows['row' + rows.previousRow].lastItem);
-                var firstRowItem = ((rows.rows['row' + rows.currentRow].lastItem - rowItemDifference) + 1);
-                rows.rows['row' + rows.currentRow].firstItem = firstRowItem; // Set first row item for current row
+                        return (instance.rowsitemWidthCount >= containerWidth ||  (i + 1) >= instance.rowsitemAmount || Math.floor(instance.rowsitemWidthCount + nextItemWidth) > containerWidth);
+                    }
 
-                rows.previousRow = rows.currentRow; // Set previous row
-                rows.currentRow ++; // Increment row
-                rows.itemWidthCount = 0; // Reset counter so we can start counting for the new row
-            }
-        });
+                    if(checkNextRow()){
+                        // Calculate first row item
+                        var rowItemDifference = (instance.rowspreviousRow == 0) ? instance.rowsData['row' + instance.rowscurrentRow].lastItem : (instance.rowsData['row' + instance.rowscurrentRow].lastItem - instance.rowsData['row' + instance.rowspreviousRow].lastItem);
+                        var firstRowItem = ((instance.rowsData['row' + instance.rowscurrentRow].lastItem - rowItemDifference) + 1);
+                        instance.rowsData['row' + instance.rowscurrentRow].firstItem = firstRowItem; // Set first row item for current row
 
-        /*
-        *   Equal Height
-        */
-        var equalHeight = function($element){
-            var heighest = 0; // Counter
+                        instance.rowspreviousRow = instance.rowscurrentRow; // Set previous row
+                        instance.rowscurrentRow ++; // Increment row
+                        instance.rowsitemWidthCount = 0; // Reset counter so we can start counting for the new row
+                    }
+                });
 
-            // Reset height so we can calculate from base heigh
-            $element.css({'height' : 'auto'});
+                /*
+                *   Equal Height
+                */
+                var equalHeight = function($element){
+                    var heighest = 0; // Counter
 
-            // Go through each item of current row and remember the heighest item
-            $element.each(function(){
-                var itemHeight = $(this).outerHeight();
+                    // Reset height so we can calculate from base heigh
+                    $element.css({'height' : 'auto'});
 
-                heighest = (itemHeight >= heighest) ? itemHeight : heighest;
+                    // Go through each item of current row and remember the heighest item
+                    $element.each(function(){
+                        var itemHeight = $(this).outerHeight();
+
+                        heighest = (itemHeight >= heighest) ? itemHeight : heighest;
+                    });
+
+                    // Set height of current row to the heighest found item
+                    $element.css({'height' : heighest + 'px'});
+                }
+
+                /*
+                *   Calculate & set height for each required element
+                */
+                $.each(instance.rowsData, function(n, e){
+                    // Find items for current row
+                    var $rowItems = instance.items.filter(settings.itemSelector + ':nth-child(n+'+ e.firstItem +'):nth-child(-n+'+ e.lastItem +')');
+
+                    equalHeight($rowItems); // Equal height for base row items
+
+                    // Optional inner selectors
+                    if(settings.innerSelectors != null){
+                        var innerSelectors = settings.innerSelectors.split(',');
+
+                        // Run equalHeight for every inner selector
+                        $.each(innerSelectors, function(int, selector){
+                            equalHeight($rowItems.find(selector));
+                            equalHeight($rowItems);
+                        });
+                    }
+                });
+            };
+
+            $(window).on('resize', function(){
+                instance.execute();
+
+                if ( $.isFunction( settings.onResize ) ) {
+                    settings.onResize( instance );
+                }
             });
 
-            // Set height of current row to the heighest found item
-            $element.css({'height' : heighest + 'px'});
-        }
+            instance.Initialize = function(){
+                instance.execute();
 
-        /*
-        *   Calculate & set height for each required element
-        */
-        $.each(rows.rows, function(n, e){
-            // Find items for current row
-            var $rowItems = $selector.find(settings.itemSelector + ':nth-child(n+'+ e.firstItem +'):nth-child(-n+'+ e.lastItem +')');
-            equalHeight($rowItems); // Equal height for base row items
+                if ( $.isFunction( settings.onInit ) ) {
+                    settings.onInit( instance );
+                }
+            };
 
-            // Optional inner selectors
-            if(settings.innerSelectors != null){
-                var innerSelectors = settings.innerSelectors.split(',');
-
-                // Run equalHeight for every inner selector
-                $.each(innerSelectors, function(int, selector){
-                    equalHeight($rowItems.find(selector));
-                    equalHeight($rowItems);
-                });
-            }
+            instance.Initialize();
         });
-
-        /* Set instance variables
-        instance.rows = rows.rows;
-        instance.itemAmount = rows.itemAmount;
-        instance.rowAmount = (rows.currentRow - 1);*/
-
-        return true;
     };
-
-    /*
-    *   Instance
-    */
-    var instance = {
-        'element' : _this.selector,
-        'onInit' : settings.onInit,
-        'onResize' : settings.onResize,
-        'itemSelector' : settings.itemSelector,
-        'innerSelectors' : (settings.innerSelectors != null) ? settings.innerSelectors.split(',') : settings.innerSelectors
-    }
-
-    $(window).on('resize', function(){
-        _this.execute(_this.selector);
-
-        if ( $.isFunction( settings.onResize ) ) {
-            settings.onResize( instance );
-        }
-    });
-
-    _this.Initialize = function(){
-        _this.execute(_this.selector);
-
-        if ( $.isFunction( settings.onInit ) ) {
-            settings.onInit( instance );
-        }
-    };
-
-    _this.Initialize();
-
-    // Reload function
-    _this.reload = function(){
-        console.log(_this.selector);
-        return _this.execute(_this.selector);
-    };
-};
+}(jQuery));
