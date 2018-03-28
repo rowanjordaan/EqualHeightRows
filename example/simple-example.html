@@ -168,7 +168,7 @@
         <script src="../js/equalHeightRowPlugin.js" type="text/javascript"></script>
 
         <script type="text/javascript">
-        $('.rowan').equalHeightRows({
+        var rowan = $('.rowan').equalHeightRows({
             itemSelector : '.test',
             innerSelectors : 'h2, .text',
             onInit : function(e){
@@ -176,7 +176,9 @@
             }
         });
 
-        $('.potato').equalHeightRows({
+        console.log(rowan);
+
+        var potato = $('.potato').equalHeightRows({
             itemSelector : '.test',
             innerSelectors : 'h2, .text',
             onInit : function(e){

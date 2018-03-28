@@ -11,6 +11,14 @@
 
         var _this = this;
 
+        var output = {};
+
+        output.helloWorld = function(){
+            console.log('Hi');
+
+            return true;
+        }
+
         // Run plugin for every found element
         this.each(function(instanceNumber, e){
             var base = e;
@@ -28,7 +36,6 @@
 
                 // Initialize variables
                 var containerWidth = instance.selector.width();
-                instance.rows = {}; // keeping things clear
                 instance.rowsitemAmount = instance.items.length;
                 instance.rowsData = {}; // Save rows information
                 instance.rowspreviousRow = 0; // Remember previous row
@@ -104,6 +111,8 @@
                         });
                     }
                 });
+
+                return instance;
             };
 
             $(window).on('resize', function(){
@@ -124,5 +133,7 @@
 
             instance.Initialize();
         });
+
+        return output;
     };
 }(jQuery));
