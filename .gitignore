@@ -22,7 +22,9 @@ $RECYCLE.BIN/
 *.lnk
 
 # Gitfiles
-README.md
+*.md
+
+*.html
 
 
 # End of https://www.gitignore.io/api/windows
