@@ -93,7 +93,7 @@ $(document).ready(function(){
 
 **Return:** *(type: JSON)*
 ```javascript
-{
+[i] : {
     itemAmount: (int),
     items : { 
         [i] : { dom },
