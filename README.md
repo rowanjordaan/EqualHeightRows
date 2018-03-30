@@ -94,10 +94,14 @@ $(document).ready(function(){
 **Return:** *(type: JSON)*
 ```javascript
 {
-    itemAmount: int,
-    items : { i : { dom } },
-    rowsData : { i : { row[i] : {} } } 
-    selector : dom
+    itemAmount: (int),
+    items : { 
+        [i] : { dom },
+    },
+    rowsData : { 
+        row[i] : { firstItem : (int), lastItem : (int) }
+    },
+    selector : (DOM)
 }
 ```
 
