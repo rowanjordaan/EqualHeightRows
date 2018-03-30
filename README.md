@@ -11,14 +11,14 @@ https://rowanjordaan.nl/equalHeightPlugin/example/example.html
 
 ## Usage
 
-*Javascript:*
+**Javascript:**
 ```javascript
 $(document).ready(function(){
     $('#items').equalHeightRows( options );
 });
 ```
 
-*Example html:*
+**Example html:**
 ```html
 <div id="items" style="clear: both; overflow: hidden;">
     <div class="item" style="background: #111; float: left; width: 50%;">
@@ -42,7 +42,7 @@ $(document).ready(function(){
 </div>
 ```
 
-*Include to your website:*
+**Include to your website:**
 ```html
 <html>
     <body>
@@ -91,9 +91,9 @@ $(document).ready(function(){
     </tr>
 </table>
 
-**Return:**
+**Return:** *(type: JSON)*
 ```javascript
-json{
+{
     itemAmount: int,
     items : { i : { dom } },
     rowsData : { i : { row[i] : {} } } 
