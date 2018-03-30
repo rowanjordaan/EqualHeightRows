@@ -39,46 +39,50 @@
             *   Calculate rows and save row details
             */
 
-            $selector = $(element);
-            $items = $selector.find(settings.itemSelector);
-
-            // Initialize variables
-            var containerWidth = $selector.width();
+            // Build row data
             var rowData = {};
-            rowData.itemAmount = $items.length; // Amount of items
+            rowData.selector = $(element);
+            rowData.items = rowData.selector.find(settings.itemSelector);
+            rowData.itemAmount = rowData.items.length; // Amount of items
             rowData.rowsData = {}; // Save rows information
-            rowData.rowspreviousRow = 0; // Remember previous row
-            rowData.rowscurrentRow = 1; // Remember current row
-            rowData.rowsitemWidthCount = 0; // Item width counter untill reached row width
 
-            $items.each(function(i, e){
+            // Counters
+            var previousRow = 0; // Remember previous row
+            var currentRow = 1; // Remember current row
+            var itemWidthCount = 0; // Item width counter untill reached row width
+            var containerWidth = rowData.selector.width();
+
+            /*
+            *   Calculate rows
+            */
+            rowData.items.each(function(i, e){
 
                 // Save last item in the row (gets overwritten each item untill reached last)
-                rowData.rowsData['row' + rowData.rowscurrentRow] = {};
-                rowData.rowsData['row' + rowData.rowscurrentRow].lastItem = (i+1);
+                rowData.rowsData['row' + currentRow] = {};
+                rowData.rowsData['row' + currentRow].lastItem = (i+1);
 
                 // Check if the next item is on a different row
                 function checkNextRow(){
                     var itemWidth = parseFloat( $(e).css('width') );
-                    var nextItemWidth =  parseFloat( $selector.find(settings.itemSelector + ':nth-child('+ (i + 2) +')').css('width') );
+                    var nextItemWidth =  parseFloat( rowData.selector.find(settings.itemSelector + ':nth-child('+ (i + 2) +')').css('width') );
 
                     // Add current itemWidth to the counter
-                    rowData.rowsitemWidthCount = (rowData.rowsitemWidthCount + itemWidth);
+                    itemWidthCount = (itemWidthCount + itemWidth);
 
-                    return (rowData.rowsitemWidthCount >= containerWidth ||  (i + 1) >= rowData.itemAmount || Math.floor(rowData.rowsitemWidthCount + nextItemWidth) > containerWidth);
+                    return (itemWidthCount >= containerWidth ||  (i + 1) >= rowData.itemAmount || Math.floor(itemWidthCount + nextItemWidth) > containerWidth);
                 }
 
                 if(checkNextRow()){
                     // Calculate first row item
 
-                    var rowItemDifference = (rowData.rowspreviousRow == 0) ? rowData.rowsData['row' + rowData.rowscurrentRow].lastItem : (rowData.rowsData['row' + rowData.rowscurrentRow].lastItem - rowData.rowsData['row' + rowData.rowspreviousRow].lastItem);
+                    var rowItemDifference = (previousRow == 0) ? rowData.rowsData['row' + currentRow].lastItem : (rowData.rowsData['row' + currentRow].lastItem - rowData.rowsData['row' + previousRow].lastItem);
 
-                    var firstRowItem = ((rowData.rowsData['row' + rowData.rowscurrentRow].lastItem - rowItemDifference) + 1);
-                    rowData.rowsData['row' + rowData.rowscurrentRow].firstItem = firstRowItem; // Set first row item for current row
+                    var firstRowItem = ((rowData.rowsData['row' + currentRow].lastItem - rowItemDifference) + 1);
+                    rowData.rowsData['row' + currentRow].firstItem = firstRowItem; // Set first row item for current row
 
-                    rowData.rowspreviousRow = rowData.rowscurrentRow; // Set previous row
-                    rowData.rowscurrentRow ++; // Increment row
-                    rowData.rowsitemWidthCount = 0; // Reset counter so we can start counting for the new row
+                    previousRow = currentRow; // Set previous row
+                    currentRow ++; // Increment row
+                    itemWidthCount = 0; // Reset counter so we can start counting for the new row
                 }
             });
 
@@ -88,7 +92,7 @@
             $.each(rowData.rowsData, function(n, e){
 
                 // Find items for current row
-                var $rowItems = $items.filter(settings.itemSelector + ':nth-child(n+'+ e.firstItem +'):nth-child(-n+'+ e.lastItem +')');
+                var $rowItems = rowData.items.filter(settings.itemSelector + ':nth-child(n+'+ e.firstItem +'):nth-child(-n+'+ e.lastItem +')');
 
                 _setEqualHeight($rowItems); // Equal height for base row items
 
@@ -107,12 +111,26 @@
             return rowData;
         };
 
-        output.execute = function(){
+
+        /*
+        *   Outside callable function: execute()
+        *   Parameters:
+        *   n = which iteration to run
+        */
+        output.execute = function(n, selector){
             var data = {};
+
+            // Check if parameter is given
+            n = (n !== undefined) ? n : false;
+            selector = (selector !== undefined) ? selector : false;
 
             // Re execute for every instance
             _$this.each(function(i, e){
-                data[i] = _execute($(e));
+
+                // Check if execute needs to run for this instance based on the number given
+                if( ( n === false && selector === false) || ( n === i && (selector === false || $(e).is(selector) ) ) || ( selector !== false && $(e).is(selector) && ( n === false || n === i) ) ){
+                    data[i] = _execute($(e));
+                }
             });
 
             return data;
@@ -123,9 +141,7 @@
         */
         this.each(function(instanceNumber, instanceElement){
             var base = instanceElement;
-            var instance = {};
-            instance.selector = $(instanceElement);
-            instance.items = instance.selector.find(settings.itemSelector);
+            var instance = { data : {}};
 
             $(window).on('resize', function(){
                 _execute(instanceElement);
@@ -136,7 +152,7 @@
             });
 
             instance.Initialize = function(){
-                _execute(instanceElement);
+                instance.data = _execute(instanceElement);
 
                 if ( $.isFunction( settings.onInit ) ) {
                     settings.onInit( instance );
@@ -148,4 +164,4 @@
 
         return output;
     };
-}(jQuery)); 
+}(jQuery));
