@@ -115,20 +115,20 @@
         /*
         *   Outside callable function: execute()
         *   Parameters:
-        *   n = which iteration to run
+        *   iteration = which iteration to run
         */
-        output.execute = function(n, selector){
+        output.execute = function(iteration, selector){
             var data = {};
 
             // Check if parameter is given
-            n = (n !== undefined) ? n : false;
+            iteration = (iteration !== undefined) ? iteration : false;
             selector = (selector !== undefined) ? selector : false;
 
             // Re execute for every instance
             _$this.each(function(i, e){
 
                 // Check if execute needs to run for this instance based on the number given
-                if( ( n === false && selector === false) || ( n === i && (selector === false || $(e).is(selector) ) ) || ( selector !== false && $(e).is(selector) && ( n === false || n === i) ) ){
+                if( ( iteration === false && selector === false) || ( iteration === i && (selector === false || $(e).is(selector) ) ) || ( selector !== false && $(e).is(selector) && ( iteration === false || iteration === i) ) ){
                     data[i] = _execute($(e));
                 }
             });
