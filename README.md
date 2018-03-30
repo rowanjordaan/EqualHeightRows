@@ -9,16 +9,16 @@ Using the innerSelectors option it's also possible to equalHeight elements withi
 https://rowanjordaan.nl/equalHeightPlugin/example/simple-example.html
 https://rowanjordaan.nl/equalHeightPlugin/example/example.html
 
-## Usage
+### Usage
 
-*Javascript:*
+**Javascript:**
 ```javascript
 $(document).ready(function(){
     $('#items').equalHeightRows( options );
 });
 ```
 
-*Example html:*
+**Example html:**
 ```html
 <div id="items" style="clear: both; overflow: hidden;">
     <div class="item" style="background: #111; float: left; width: 50%;">
@@ -42,7 +42,7 @@ $(document).ready(function(){
 </div>
 ```
 
-*Include to your website:*
+**Include to your website:**
 ```html
 <html>
     <body>
@@ -57,7 +57,7 @@ $(document).ready(function(){
 </html>
 ```
 
-## Options
+### Options
 
 | Option | Default value | Type | Description |
 | --- | --- | --- | --- |
@@ -66,9 +66,61 @@ $(document).ready(function(){
 | itemSelector | .item | string |Element that acts as Item Selector |
 | innerSelectors | null | string | Elements within the itemSelector to equalHeight aswell. Comma seperated. (example: '.title, .text') will give all the .title divs on the same row the same height and all the .text divs on the same row the same height |
 
-## Examples
+### Return
+```javascript
+[i] : {
+    itemAmount: (int),
+    items : { 
+        [i] : { dom },
+    },
+    rowsData : { 
+        row[i] : { firstItem : (int), lastItem : (int) }
+    },
+    selector : (DOM)
+}
+```
 
-**Recalculate rows using selector.execute()**
+## Callable functions
+
+### execute(iteration, selector)
+
+<table>
+    <tr>
+        <th>Parameter</th>
+        <th>Default value</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>Iteration</td>
+        <td>false</td>
+        <td>int</td>
+        <td>Which iteration of found elements to run. execute(0) executes only for the first found element</td>
+    </tr>
+    <tr>
+        <td>Selector</td>
+        <td>false</td>
+        <td>dom selector</td>
+        <td>Checks for example if the instance has a class or id</td>
+    </tr>
+</table>
+
+**Return:** *(type: JSON)*
+```javascript
+[i] : {
+    itemAmount: (int),
+    items : { 
+        [i] : { dom },
+    },
+    rowsData : { 
+        row[i] : { firstItem : (int), lastItem : (int) }
+    },
+    selector : (DOM)
+}
+```
+
+**Example:**
+*recalculate rows using selector.execute()*
 ```javascript
 $(document).ready(function(){
     var items = $('#items').equalHeightRows();
