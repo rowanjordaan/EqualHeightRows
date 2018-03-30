@@ -91,7 +91,7 @@ $(document).ready(function(){
     </tr>
 </table>
 
-**Return:**
+**Return: **
 ```javascript
 json{
     itemAmount: int,
@@ -101,7 +101,7 @@ json{
 }
 ```
 
-**Example**
+**Example: **
 *recalculate rows using selector.execute()*
 ```javascript
 $(document).ready(function(){
