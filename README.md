@@ -9,7 +9,7 @@ Using the innerSelectors option it's also possible to equalHeight elements withi
 https://rowanjordaan.nl/equalHeightPlugin/example/simple-example.html
 https://rowanjordaan.nl/equalHeightPlugin/example/example.html
 
-## Usage
+### Usage
 
 **Javascript:**
 ```javascript
@@ -57,7 +57,7 @@ $(document).ready(function(){
 </html>
 ```
 
-## Options
+### Options
 
 | Option | Default value | Type | Description |
 | --- | --- | --- | --- |
@@ -65,6 +65,20 @@ $(document).ready(function(){
 | onResize | null | function | Callback on resize |
 | itemSelector | .item | string |Element that acts as Item Selector |
 | innerSelectors | null | string | Elements within the itemSelector to equalHeight aswell. Comma seperated. (example: '.title, .text') will give all the .title divs on the same row the same height and all the .text divs on the same row the same height |
+
+### Return
+```javascript
+[i] : {
+    itemAmount: (int),
+    items : { 
+        [i] : { dom },
+    },
+    rowsData : { 
+        row[i] : { firstItem : (int), lastItem : (int) }
+    },
+    selector : (DOM)
+}
+```
 
 ## Callable functions
 
