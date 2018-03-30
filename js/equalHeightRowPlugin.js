@@ -34,11 +34,10 @@
             $element.css({'height' : heighest + 'px'});
         }
 
-        _execute = function(element){
-            /*
-            *   Calculate rows and save row details
-            */
-
+        /*
+        *   Run calculate rows and set equalHeight
+        */
+        var _execute = function(element){
             // Build row data
             var rowData = {};
             rowData.selector = $(element);
@@ -62,7 +61,7 @@
                 rowData.rowsData['row' + currentRow].lastItem = (i+1);
 
                 // Check if the next item is on a different row
-                function checkNextRow(){
+                var checkNextRow = function(){
                     var itemWidth = parseFloat( $(e).css('width') );
                     var nextItemWidth =  parseFloat( rowData.selector.find(settings.itemSelector + ':nth-child('+ (i + 2) +')').css('width') );
 
@@ -70,7 +69,7 @@
                     itemWidthCount = (itemWidthCount + itemWidth);
 
                     return (itemWidthCount >= containerWidth ||  (i + 1) >= rowData.itemAmount || Math.floor(itemWidthCount + nextItemWidth) > containerWidth);
-                }
+                };
 
                 if(checkNextRow()){
                     // Calculate first row item
