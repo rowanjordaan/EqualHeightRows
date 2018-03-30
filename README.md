@@ -55,7 +55,6 @@ $(document).ready(function(){
         </script>
     </body>
 </html>
-
 ```
 
 ## Options
@@ -66,6 +65,18 @@ $(document).ready(function(){
 | onResize | null | function | Callback on resize |
 | itemSelector | .item | string |Element that acts as Item Selector |
 | innerSelectors | null | string | Elements within the itemSelector to equalHeight aswell. Comma seperated. (example: '.title, .text') will give all the .title divs on the same row the same height and all the .text divs on the same row the same height |
+
+## Examples
+```javascript
+$(document).ready(function(){
+    var items = $('#items').equalHeightRows();
+    
+    $('#mybutton').on('click', function(){
+        $('#items > .item:nth-child(1)').append('<p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>');
+        items.execute(); // Will recalculate rows
+    });
+});
+```
 
 ## Requirements
 - jQuery
