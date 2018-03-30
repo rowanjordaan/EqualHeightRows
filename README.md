@@ -101,7 +101,8 @@ json{
 }
 ```
 
-**Example recalculate rows using selector.execute()**
+**Example**
+*recalculate rows using selector.execute()*
 ```javascript
 $(document).ready(function(){
     var items = $('#items').equalHeightRows();
