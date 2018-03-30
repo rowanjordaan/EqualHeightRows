@@ -67,6 +67,8 @@ $(document).ready(function(){
 | innerSelectors | null | string | Elements within the itemSelector to equalHeight aswell. Comma seperated. (example: '.title, .text') will give all the .title divs on the same row the same height and all the .text divs on the same row the same height |
 
 ## Examples
+
+**Recalculate rows using selector.execute()**
 ```javascript
 $(document).ready(function(){
     var items = $('#items').equalHeightRows();
