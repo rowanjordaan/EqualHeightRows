@@ -77,34 +77,29 @@ $(document).ready(function(){
         <th>Type</th>
         <th>Description</th>
     </tr>
-    
     <tr>
         <td>Iteration</td>
         <td>false</td>
         <td>int</td>
         <td>Which iteration of found elements to run. execute(1) executes only for the second found element</td>
     </tr>
-    
     <tr>
         <td>Selector</td>
         <td>false</td>
         <td>dom selector</td>
         <td>Checks for example if the instance has a class or id</td>
     </tr>
-    
-    <tr>
-        <td>**Return**</td>
-        <td colspan="3">test</td>
-    </tr>
 </table>
-    
-    
 
-| Parameter | Default value | Type | Description |
-| --- | --- | --- | --- |
-| Iteration | false | int | Which iteration of found elements to run. execute(1) executes only for the second found element |
-| Selector | false | dom selector | Checks for example if the instance has a class or id |
-| **Return** | test test test test test |
+**Return:**
+```javascript
+json{
+    itemAmount: int,
+    items : { i : { dom } },
+    rowsData : { i : { row[i] : {} } } 
+    selector : dom
+}
+```
 
 **Example recalculate rows using selector.execute()**
 ```javascript
