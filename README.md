@@ -70,10 +70,41 @@ $(document).ready(function(){
 
 ### execute(iteration, selector)
 
+<table>
+    <tr>
+        <th>Parameter</th>
+        <th>Default value</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    
+    <tr>
+        <td>Iteration</td>
+        <td>false</td>
+        <td>int</td>
+        <td>Which iteration of found elements to run. execute(1) executes only for the second found element</td>
+    </tr>
+    
+    <tr>
+        <td>Selector</td>
+        <td>false</td>
+        <td>dom selector</td>
+        <td>Checks for example if the instance has a class or id</td>
+    </tr>
+    
+    <tr>
+        <td>**Return**</td>
+        <td colspan="3">test</td>
+    </tr>
+</table>
+    
+    
+
 | Parameter | Default value | Type | Description |
 | --- | --- | --- | --- |
 | Iteration | false | int | Which iteration of found elements to run. execute(1) executes only for the second found element |
 | Selector | false | dom selector | Checks for example if the instance has a class or id |
+| **Return** | test test test test test |
 
 **Example recalculate rows using selector.execute()**
 ```javascript
