@@ -81,7 +81,7 @@ $(document).ready(function(){
         <td>Iteration</td>
         <td>false</td>
         <td>int</td>
-        <td>Which iteration of found elements to run. execute(1) executes only for the second found element</td>
+        <td>Which iteration of found elements to run. execute(0) executes only for the first found element</td>
     </tr>
     <tr>
         <td>Selector</td>
