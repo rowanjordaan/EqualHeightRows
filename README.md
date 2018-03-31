@@ -134,5 +134,21 @@ $(document).ready(function(){
 });
 ```
 
+## On the fly changable settings
+
+### wrapRows
+```javascript
+selector.settings.wrapRows = value;
+```
+
+### resizeTimeout
+```javascript
+selector.settings.resizeTimeout = value;
+```
+### stoppedResizingresizeTimeout
+```javascript
+selector.settings.stoppedResizingresizeTimeout = value;
+```
+
 ## Requirements
 - jQuery
