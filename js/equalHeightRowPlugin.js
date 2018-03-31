@@ -1,8 +1,12 @@
 (function($){
     $.fn.equalHeightRows = function(options){
+        var _this = this;
+        var _$this = $(_this);
+
+        var output = { settings : {} }; // Return object for plugin
 
         // Extend default settings with options
-        var settings = $.extend({
+        output.settings = $.extend({
             onInit: null, // Called on initialize (expects function)
             onResize: null, // Called on resize (expects function)
             itemSelector : '.item', // Class of item within the container selector,
@@ -12,18 +16,6 @@
             stoppedResizingresizeTimeout: 150, // If stopped resizing 150ms run on resize
 
         }, options);
-
-        var _this = this;
-        var _$this = $(_this);
-
-        var output = { settings : {} }; // Return object for plugin
-
-        /*
-        *   On the fly changable variables
-        */
-        output.settings.wrapRows = settings.wrapRows;
-        output.settings.resizeTimeout = settings.resizeTimeout;
-        output.settings.stoppedResizingresizeTimeout = settings.stoppedResizingresizeTimeout;
 
         /*
         *   Equal Height
@@ -54,7 +46,7 @@
             // Build row data
             var rowData = {};
             rowData.selector = $(element);
-            rowData.items = rowData.selector.find(settings.itemSelector);
+            rowData.items = rowData.selector.find(output.settings.itemSelector);
             rowData.itemAmount = rowData.items.length; // Amount of items
             rowData.rowsData = {}; // Save rows information
             rowData.rowsItems = {}; // Save doms
@@ -81,7 +73,7 @@
                 // Check if the next item is on a different row
                 var checkNextRow = function(){
                     var itemWidth = parseFloat( $(e).css('width') );
-                    var nextItemWidth =  parseFloat( rowData.selector.find(settings.itemSelector + ':nth-child('+ (i + 2) +')').css('width') );
+                    var nextItemWidth =  parseFloat( rowData.selector.find(output.settings.itemSelector + ':nth-child('+ (i + 2) +')').css('width') );
 
                     // Add current itemWidth to the counter
                     itemWidthCount = (itemWidthCount + itemWidth);
@@ -96,7 +88,7 @@
                     rowData.rowsData['row' + currentRow].firstItem = firstRowItem; // Set first row item for current row
 
                     // Find items belonging to current row and save doms as current row
-                    rowData.rowsItems['row' + currentRow] = rowData.items.filter(settings.itemSelector + ':nth-child(n+'+ firstRowItem +'):nth-child(-n+'+ rowData.rowsData['row' + currentRow].lastItem +')'); // Set first row item for current row
+                    rowData.rowsItems['row' + currentRow] = rowData.items.filter(output.settings.itemSelector + ':nth-child(n+'+ firstRowItem +'):nth-child(-n+'+ rowData.rowsData['row' + currentRow].lastItem +')'); // Set first row item for current row
 
                     previousRow = currentRow; // Set previous row
                     currentRow ++; // Increment row
@@ -117,8 +109,8 @@
                 }
 
                 // Optional inner selectors
-                if(settings.innerSelectors != null){
-                    var innerSelectors = settings.innerSelectors.split(',');
+                if(output.settings.innerSelectors != null){
+                    var innerSelectors = output.settings.innerSelectors.split(',');
 
                     // Run equalHeight for every inner selector
                     $.each(innerSelectors, function(int, selector){
@@ -168,15 +160,15 @@
             var run = function(){
                 _execute(instanceElement);
 
-                if ( $.isFunction( settings.onResize ) ) {
-                    settings.onResize( instance );
+                if ( $.isFunction( output.settings.onResize ) ) {
+                    output.settings.onResize( instance );
                 }
             };
 
             $(window).on('resize', function(){
                 var resizeTimeoutTimer;
                 clearTimeout(resizeTimer);
-                
+
                 if(output.settings.resizeTimeout > 0 && output.settings.resizeTimeout !== false){
                     // If time out is false call run()
                     if(timeout === false){
@@ -217,8 +209,8 @@
             instance.Initialize = function(){
                 instance.data = _execute(instanceElement);
 
-                if ( $.isFunction( settings.onInit ) ) {
-                    settings.onInit( instance );
+                if ( $.isFunction( output.settings.onInit ) ) {
+                    output.settings.onInit( instance );
                 }
             };
 

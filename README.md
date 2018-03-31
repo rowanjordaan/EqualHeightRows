@@ -68,6 +68,12 @@ $(document).ready(function(){
 | resizeTimeout | 150 | int | Prevents rerunning on resize for given amount of milliseconds. Will callback after time is over. |
 | stoppedResizingresizeTimeout | 150 | int | The time in milliseconds after resizing to consider the user has stopped resizing the window |
 
+
+### Change option on the fly
+```javascript
+selector.settings.[setting] = value;
+```
+
 ### Return
 ```javascript
 [i] : {
@@ -134,21 +140,6 @@ $(document).ready(function(){
 });
 ```
 
-## On the fly changable settings
-
-### wrapRows
-```javascript
-selector.settings.wrapRows = value;
-```
-
-### resizeTimeout
-```javascript
-selector.settings.resizeTimeout = value;
-```
-### stoppedResizingresizeTimeout
-```javascript
-selector.settings.stoppedResizingresizeTimeout = value;
-```
 
 ## Requirements
 - jQuery
