@@ -82,7 +82,7 @@ $(document).ready(function(){
 
 ## Callable functions
 
-### execute(iteration, selector)
+### execute(selector)
 
 <table>
     <tr>
@@ -92,16 +92,10 @@ $(document).ready(function(){
         <th>Description</th>
     </tr>
     <tr>
-        <td>Iteration</td>
-        <td>false</td>
-        <td>int</td>
-        <td>Which iteration of found elements to run. execute(0) executes only for the first found element</td>
-    </tr>
-    <tr>
-        <td>Selector</td>
+        <td>(optional string) Selector</td>
         <td>false</td>
         <td>dom selector</td>
-        <td>Checks for example if the instance has a class or id</td>
+        <td>check if instance is selector.</td>
     </tr>
 </table>
 
