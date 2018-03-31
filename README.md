@@ -71,7 +71,7 @@ $(document).ready(function(){
 
 ### Change option on the fly
 ```javascript
-selector.settings.[setting] = value;
+selector.settings.[option] = value;
 ```
 
 ### Return
