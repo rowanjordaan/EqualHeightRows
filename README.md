@@ -92,7 +92,7 @@ $(document).ready(function(){
         <th>Description</th>
     </tr>
     <tr>
-        <td>(string) Selector (optional)</td>
+        <td>(optional)(type string) Selector</td>
         <td>false</td>
         <td>dom selector</td>
         <td>check if instance is selector.</td>
