@@ -7,14 +7,23 @@
             onResize: null, // Called on resize (expects function)
             itemSelector : '.item', // Class of item within the container selector,
             innerSelectors: null, // Comma seperated element selector for equal height within the items
-            wrapRows: false // Classname to wrap rows in
+            wrapRows: false, // Classname to wrap rows in
+            resizeTimeout: 150, // Run every 150ms
+            stoppedResizingresizeTimeout: 150, // If stopped resizing 150ms run on resize
 
         }, options);
 
         var _this = this;
         var _$this = $(_this);
 
-        var output = {}; // Return object for plugin
+        var output = { settings : {} }; // Return object for plugin
+
+        /*
+        *   On the fly changable variables
+        */
+        output.settings.wrapRows = settings.wrapRows;
+        output.settings.resizeTimeout = settings.resizeTimeout;
+        output.settings.stoppedResizingresizeTimeout = settings.stoppedResizingresizeTimeout;
 
         /*
         *   Equal Height
@@ -57,7 +66,7 @@
             var containerWidth = rowData.selector.width();
 
             // Remove the rows wrap so we can calculate new rows
-            if(settings.wrapRows){
+            if(output.settings.wrapRows || $(rowData.selector).find('[data-type="row"]:nth-child(1)').length > 0){
                 $(rowData.selector).find('[data-type="row"]').contents().unwrap();
             }
 
@@ -103,8 +112,8 @@
                 _setEqualHeight(items); // Equal height for base row items
 
                 // Wrap items in rows
-                if(settings.wrapRows){
-                    items.wrapAll('<div class="'+ settings.wrapRows +' '+ i + '" data-type="row"></div>')
+                if(output.settings.wrapRows){
+                    items.wrapAll('<div class="'+ output.settings.wrapRows +' '+ i + '" data-type="row"></div>')
                 }
 
                 // Optional inner selectors
@@ -151,12 +160,58 @@
             var base = instanceElement;
             var instance = { data : {}};
 
-            $(window).on('resize', function(){
+            // Counters
+            var timeout = false; // Prevent execute from recalling xx amount of ms
+            var waiting = false; // Wait checker
+            var resizeTimer; // Timer waiting if stopped resizing
+
+            var run = function(){
                 _execute(instanceElement);
 
                 if ( $.isFunction( settings.onResize ) ) {
                     settings.onResize( instance );
                 }
+            };
+
+            $(window).on('resize', function(){
+                var resizeTimeoutTimer;
+                clearTimeout(resizeTimer);
+                
+                if(output.settings.resizeTimeout > 0 && output.settings.resizeTimeout !== false){
+                    // If time out is false call run()
+                    if(timeout === false){
+                        run();
+                        timeout = true;
+                        return true; // Allow onResize to callback
+                    }else{
+                        // Check if the timer has run out. If so we may run() again
+                        if(waiting === false){
+                            // Prevent execute from rerunning onResize for xx amount of ms
+                            resizeTimeoutTimer = setTimeout(function(){
+                                timeout = false;
+                                waiting = false;
+                                run();
+                                return true; // Allow onResize to callback
+                            }, output.settings.resizeTimeout);
+                        }
+
+                        waiting = true;
+                    }
+
+                    // Make sure we stopped resizing the browser
+                    resizeTimer = setTimeout(function() {
+                        run();
+                        clearTimeout(resizeTimeoutTimer);
+
+                        return true; // Allow onResize to callback
+                    }, output.settings.stoppedResizingresizeTimeout);
+                }else{
+                    run();
+                    return true; // Allow onResize to callback
+                }
+
+                // Prevent returning a onResize if execute did not fire
+                return false;
             });
 
             instance.Initialize = function(){
@@ -167,7 +222,7 @@
                 }
             };
 
-            instance.Initialize();
+            return instance.Initialize();
         });
 
         return output;

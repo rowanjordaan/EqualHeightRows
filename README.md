@@ -27,15 +27,15 @@ $(document).ready(function(){
     <div class="item" style="background: #222; float: left; width: 50%;">
         <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
     </div>
-    
+
     <div class="item" style="background: #222; float: left; width: 33.3%;">
         <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
     </div>
-    
+
     <div class="item" style="background: #33; float: left; width: 33.3%;">
         <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
     </div>
-    
+
     <div class="item" style="background: #44; float: left; width: 33.3%;">
         <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
     </div>
@@ -65,15 +65,17 @@ $(document).ready(function(){
 | onResize | null | function | Callback on resize |
 | itemSelector | .item | string |Element that acts as Item Selector |
 | innerSelectors | null | string | Elements within the itemSelector to equalHeight aswell. Comma seperated. (example: '.title, .text') will give all the .title divs on the same row the same height and all the .text divs on the same row the same height |
+| resizeTimeout | 150 | int | Prevents rerunning on resize for given amount of milliseconds. Will callback after time is over. |
+| stoppedResizingresizeTimeout | 150 | int | The time in milliseconds after resizing to consider the user has stopped resizing the window |
 
 ### Return
 ```javascript
 [i] : {
     itemAmount: (int),
-    items : { 
+    items : {
         [i] : { dom },
     },
-    rowsData : { 
+    rowsData : {
         row[i] : { firstItem : (int), lastItem : (int) }
     },
     rowsItems : {
@@ -106,10 +108,10 @@ $(document).ready(function(){
 ```javascript
 [i] : {
     itemAmount: (int),
-    items : { 
+    items : {
         [i] : { dom },
     },
-    rowsData : { 
+    rowsData : {
         row[i] : { firstItem : (int), lastItem : (int) }
     },
     rowsItems : {
@@ -124,7 +126,7 @@ $(document).ready(function(){
 ```javascript
 $(document).ready(function(){
     var items = $('#items').equalHeightRows();
-    
+
     $('#mybutton').on('click', function(){
         $('#items > .item:nth-child(1)').append('<p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>');
         items.execute(); // Will recalculate rows
