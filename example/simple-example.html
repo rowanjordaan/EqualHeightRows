@@ -8,28 +8,39 @@
             *{
                 box-sizing: border-box;
             }
+
             body{
                 color: #FFF;
                 margin: 0px;
                 font-family: Arial;
             }
+
             h1{
                 color: #000;
             }
+
             h2{
                 background: rgba(118, 255, 186, 0.3);
                 margin: 0;
             }
+
             p{
                 margin: 10px 0;
             }
+
             .text{
                 background: rgba(255, 28, 28, 0.28);
             }
+
             .test{
                 margin-bottom: 10px;
                 padding: 10px;
             }
+
+            .row{
+                overflow: hidden;
+            }
+
             a{
                 color: #FFF;
             }
@@ -46,7 +57,7 @@
         </style>
     </head>
     <body>
-        <h1>example1 = .selector1 (0)</h1>
+        <h1>example1 = .selector1 (0) - #example</h1>
 
         <div id="example" class="selector1" style="clear: both; overflow: hidden;">
             <div class="test" style="background: #111; float: left; width: 50%; overflow: hidden;">
@@ -104,7 +115,7 @@
             </div>
         </div>
 
-        <h1>emxample 2 = .selector1 (1)</h1>
+        <h1>example 2 = .selector1 (1) - #test</h1>
 
         <div id="test" class="selector1" style="clear: both; overflow: hidden;">
             <div class="test" style="background: #777;; float: left; width: 50%">
@@ -193,12 +204,14 @@
             innerSelectors : 'h2, .text',
             onInit : function(e){
                 console.log(e);
-            }
+            },
+            wrapRows: 'row'
         });
         var example2 = $('.selector2').equalHeightRows({
             itemSelector : '.test',
             innerSelectors : 'h2, .text',
             onInit : function(e){
+                console.log(e);
             }
         });
         </script>
