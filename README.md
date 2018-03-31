@@ -9,16 +9,16 @@ Using the innerSelectors option it's also possible to equalHeight elements withi
 https://rowanjordaan.nl/equalHeightPlugin/example/simple-example.html
 https://rowanjordaan.nl/equalHeightPlugin/example/example.html
 
-## Usage
+### Usage
 
-*Javascript:*
+**Javascript:**
 ```javascript
 $(document).ready(function(){
     $('#items').equalHeightRows( options );
 });
 ```
- wef wfaf awf 
-*Example html:*
+
+**Example html:**
 ```html
 <div id="items" style="clear: both; overflow: hidden;">
     <div class="item" style="background: #111; float: left; width: 50%;">
@@ -42,7 +42,7 @@ $(document).ready(function(){
 </div>
 ```
 
-*Include to your website:*
+**Include to your website:**
 ```html
 <html>
     <body>
@@ -55,10 +55,9 @@ $(document).ready(function(){
         </script>
     </body>
 </html>
-
 ```
 
-## Options
+### Options
 
 | Option | Default value | Type | Description |
 | --- | --- | --- | --- |
@@ -66,6 +65,81 @@ $(document).ready(function(){
 | onResize | null | function | Callback on resize |
 | itemSelector | .item | string |Element that acts as Item Selector |
 | innerSelectors | null | string | Elements within the itemSelector to equalHeight aswell. Comma seperated. (example: '.title, .text') will give all the .title divs on the same row the same height and all the .text divs on the same row the same height |
+| resizeTimeout | 150 | int | Prevents rerunning on resize for given amount of milliseconds. Will callback after time is over. |
+| stoppedResizingresizeTimeout | 150 | int | The time in milliseconds after resizing to consider the user has stopped resizing the window |
+
+
+### Change option on the fly
+```javascript
+selector.settings.[option] = value;
+```
+
+### Return
+```javascript
+[i] : {
+    itemAmount: (int),
+    items : {
+        [i] : { dom },
+    },
+    rowsData : {
+        row[i] : { firstItem : (int), lastItem : (int) }
+    },
+    rowsItems : {
+        row[i] : { doms }
+    },
+    selector : (DOM)
+}
+```
+
+## Callable functions
+
+### execute(selector)
+
+<table>
+    <tr>
+        <th>Parameter</th>
+        <th>Default value</th>
+        <th>Type</th>
+        <th>Description</th>
+    </tr>
+    <tr>
+        <td>(optional)(type string) Selector</td>
+        <td>false</td>
+        <td>dom selector</td>
+        <td>check if instance is selector.</td>
+    </tr>
+</table>
+
+**Return:** *(type: JSON)*
+```javascript
+[i] : {
+    itemAmount: (int),
+    items : {
+        [i] : { dom },
+    },
+    rowsData : {
+        row[i] : { firstItem : (int), lastItem : (int) }
+    },
+    rowsItems : {
+        row[i] : { doms }
+    },
+    selector : (DOM)
+}
+```
+
+**Example:**
+*recalculate rows using selector.execute()*
+```javascript
+$(document).ready(function(){
+    var items = $('#items').equalHeightRows();
+
+    $('#mybutton').on('click', function(){
+        $('#items > .item:nth-child(1)').append('<p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>');
+        items.execute(); // Will recalculate rows
+    });
+});
+```
+
 
 ## Requirements
 - jQuery

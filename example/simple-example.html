@@ -10,9 +10,13 @@
             }
 
             body{
-                color: #FFF;
                 margin: 0px;
                 font-family: Arial;
+                color: #000;
+            }
+
+            a{
+                color: #000;
             }
 
             h1{
@@ -35,10 +39,15 @@
             .test{
                 margin-bottom: 10px;
                 padding: 10px;
+                color: #FFF;
             }
 
-            a{
+            .test a{
                 color: #FFF;
+            }
+
+            .row{
+                overflow: hidden;
             }
 
             @media only screen and (max-width: 900px) {
@@ -46,7 +55,6 @@
                     width: 50% !important;
                 }
             }
-
             @media only screen and (max-width: 600px) {
                 .test{
                     width: 100% !important;
@@ -55,7 +63,13 @@
         </style>
     </head>
     <body>
-        <h1>example1 = .selector1 (0)</h1>
+        <div id="information">
+            <div data-name="example">
+                <div class="ran">0</div>
+            </div>
+        </div>
+
+        <h1>example1 = .selector1 (0) - #example <a href="#" id="additem1">Add new item</a></h1>
 
         <div id="example" class="selector1" style="clear: both; overflow: hidden;">
             <div class="test" style="background: #111; float: left; width: 50%; overflow: hidden;">
@@ -113,7 +127,7 @@
             </div>
         </div>
 
-        <h1>emxample 2 = .selector1 (1)</h1>
+        <h1>example 2 = .selector1 (1) - #test</h1>
 
         <div id="test" class="selector1" style="clear: both; overflow: hidden;">
             <div class="test" style="background: #777;; float: left; width: 50%">
@@ -201,15 +215,33 @@
             itemSelector : '.test',
             innerSelectors : 'h2, .text',
             onInit : function(e){
-                console.log(e);
+                var p = $('#information div[data-name="'+ e.data.selector.attr("id") +'"]');
+                var cur = (parseInt( p.find('.ran').html() ) + 1);
+                p.find('.ran').html( cur );
+            },
+            onResize: function(e){
+                var p = $('#information div[data-name="'+ e.data.selector.attr("id") +'"]');
+                var cur = (parseInt( p.find('.ran').html() ) + 1);
+                p.find('.ran').html( cur );
             }
+        });
+
+        $('#additem1').on('click', function(){
+            $('#example').prepend('<div class="test" style="background: #111; float: left; width: 50%; overflow: hidden;">\
+                <h2>New Item</h2>\
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>\
+            </div>');
+
+            example1.execute('#example');
+
+            return false;
         });
 
         var example2 = $('.selector2').equalHeightRows({
             itemSelector : '.test',
             innerSelectors : 'h2, .text',
             onInit : function(e){
-
+                console.log(e);
             }
         });
         </script>
