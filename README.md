@@ -76,6 +76,9 @@ $(document).ready(function(){
     rowsData : { 
         row[i] : { firstItem : (int), lastItem : (int) }
     },
+    rowsItems : {
+        row[i] : { doms }
+    },
     selector : (DOM)
 }
 ```
@@ -108,6 +111,9 @@ $(document).ready(function(){
     },
     rowsData : { 
         row[i] : { firstItem : (int), lastItem : (int) }
+    },
+    rowsItems : {
+        row[i] : { doms }
     },
     selector : (DOM)
 }
