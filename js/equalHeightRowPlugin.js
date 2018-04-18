@@ -1,3 +1,4 @@
+/* equalHeightRows */
 (function($){
     $.fn.equalHeightRows = function(options){
         var _this = this;
@@ -55,7 +56,7 @@
             var previousRow = 0; // Remember previous row
             var currentRow = 1; // Remember current row
             var itemWidthCount = 0; // Item width counter untill reached row width
-            var containerWidth = rowData.selector.width();
+            var containerWidth = parseFloat(rowData.selector.css('width'));
 
             // Remove the rows wrap so we can calculate new rows
             if(output.settings.wrapRows || $(rowData.selector).find('[data-type="row"]:nth-child(1)').length > 0){
@@ -72,13 +73,15 @@
 
                 // Check if the next item is on a different row
                 var checkNextRow = function(){
-                    var itemWidth = parseFloat( $(e).css('width') );
-                    var nextItemWidth =  parseFloat( rowData.selector.find(output.settings.itemSelector + ':nth-child('+ (i + 2) +')').css('width') );
+                    var itemWidth = parseFloat( window.getComputedStyle(e).width);
+
+                    var nextItem = rowData.selector.find(output.settings.itemSelector + ':nth-child('+ (i + 2) +')');
+                    var nextItemWidth = (nextItem.length) ? parseFloat( rowData.selector.find(output.settings.itemSelector + ':nth-child('+ (i + 2) +')').css('width') ) : 0;
 
                     // Add current itemWidth to the counter
                     itemWidthCount = (itemWidthCount + itemWidth);
-
-                    return (itemWidthCount >= containerWidth ||  (i + 1) >= rowData.itemAmount || Math.floor(itemWidthCount + nextItemWidth) > containerWidth);
+                    
+                    return (itemWidthCount >= containerWidth ||  (i + 1) >= rowData.itemAmount && itemWidthCount < containerWidth || Math.floor(itemWidthCount + nextItemWidth) > containerWidth);
                 };
 
                 if(checkNextRow()){
