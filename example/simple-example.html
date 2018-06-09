@@ -50,14 +50,6 @@
                 overflow: hidden;
             }
 
-            .potato{
-                float: left;
-                clear: both;
-                width: 100%;
-                padding: 10px;
-                margin-bottom: 10px;
-            }
-
             @media only screen and (max-width: 900px) {
                 .test{
                     width: 50% !important;
@@ -117,14 +109,6 @@
                     <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
                 </div>
                 <span><a href="#">readmore</a></span>
-            </div>
-
-            <div class="potato">
-                <h2>This item won't be touched</h2>
-                <div class="text">
-                    <p>This item has not the same selector as the other items</p>
-                    <span><a href="#">readmore</a></span>
-                </div>
             </div>
 
             <div class="test" style="background: #666; float: left; width: 100%;">
@@ -231,14 +215,11 @@
             itemSelector : '.test',
             innerSelectors : 'h2, .text',
             onInit : function(e){
-                console.log(e);
-
                 var p = $('#information div[data-name="'+ e.data.selector.attr("id") +'"]');
                 var cur = (parseInt( p.find('.ran').html() ) + 1);
                 p.find('.ran').html( cur );
             },
             onResize: function(e){
-                console.log(e);
                 var p = $('#information div[data-name="'+ e.data.selector.attr("id") +'"]');
                 var cur = (parseInt( p.find('.ran').html() ) + 1);
                 p.find('.ran').html( cur );

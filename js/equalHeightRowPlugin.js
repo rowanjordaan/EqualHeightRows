@@ -15,7 +15,6 @@
             wrapRows: false, // Classname to wrap rows in
             resizeTimeout: 150, // Run every 150ms
             stoppedResizingresizeTimeout: 150, // If stopped resizing 150ms run on resize
-            jsNthChild: true // Enable jquery nth child instead of css nth child
 
         }, options);
 
@@ -42,25 +41,6 @@
         };
 
         /*
-        *   Jquery based nth-child (class based instead of all items)
-        *   Starts counting from 1 like css nth child
-        */
-        var _nthChild = function($items, from, to){
-            var items = [];
-
-            $items.each(function(i, item){
-                // Add 1 to current iteration so we start counting from 1 like css nth child
-                iteration = (i+1);
-
-                if(iteration >= from && iteration <= to) {
-                    items.push(item);
-                }
-            });
-
-            return items;
-        };
-
-        /*
         *   Run calculate rows and set equalHeight
         */
         var _execute = function(element){
@@ -79,7 +59,7 @@
             var containerWidth = parseFloat(rowData.selector.css('width'));
 
             // Remove the rows wrap so we can calculate new rows
-            if(output.settings.wrapRows || (((output.settings.jsNthChild) ? $(rowData.selector).find('[data-type="row"]:eq(1)').length : $(rowData.selector).find('[data-type="row"]:nth-child(1)').length) > 0)){
+            if(output.settings.wrapRows || $(rowData.selector).find('[data-type="row"]:nth-child(1)').length > 0){
                 $(rowData.selector).find('[data-type="row"]').contents().unwrap();
             }
 
@@ -95,13 +75,12 @@
                 var checkNextRow = function(){
                     var itemWidth = parseFloat( window.getComputedStyle(e).width);
 
-                    // Calc next ~ check if to use css based nth child or js based nth child
-                    var nextItem = (output.settings.jsNthChild) ? rowData.selector.find(output.settings.itemSelector + ':eq('+ (i) +')') : rowData.selector.find(output.settings.itemSelector + ':nth-child('+ (i + 2) +')');
-                    var nextItemWidth = (nextItem.length) ? parseFloat( nextItem.css('width') ) : 0;
+                    var nextItem = rowData.selector.find(output.settings.itemSelector + ':nth-child('+ (i + 2) +')');
+                    var nextItemWidth = (nextItem.length) ? parseFloat( rowData.selector.find(output.settings.itemSelector + ':nth-child('+ (i + 2) +')').css('width') ) : 0;
 
                     // Add current itemWidth to the counter
                     itemWidthCount = (itemWidthCount + itemWidth);
-
+                    
                     return (itemWidthCount >= containerWidth ||  (i + 1) >= rowData.itemAmount && itemWidthCount < containerWidth || Math.floor(itemWidthCount + nextItemWidth) > containerWidth);
                 };
 
@@ -111,8 +90,8 @@
                     var firstRowItem = ((rowData.rowsData['row' + currentRow].lastItem - rowItemDifference) + 1);
                     rowData.rowsData['row' + currentRow].firstItem = firstRowItem; // Set first row item for current row
 
-                    // Find items belonging to current row and save doms as current row ~ Use either js based nth child or css nth child
-                    rowData.rowsItems['row' + currentRow] = (output.settings.jsNthChild) ? $(_nthChild(rowData.items, firstRowItem, rowData.rowsData['row' + currentRow].lastItem)) : rowData.items.filter(output.settings.itemSelector + ':nth-child(n+'+ firstRowItem +'):nth-child(-n+'+ rowData.rowsData['row' + currentRow].lastItem +')'); // Set first row item for current row
+                    // Find items belonging to current row and save doms as current row
+                    rowData.rowsItems['row' + currentRow] = rowData.items.filter(output.settings.itemSelector + ':nth-child(n+'+ firstRowItem +'):nth-child(-n+'+ rowData.rowsData['row' + currentRow].lastItem +')'); // Set first row item for current row
 
                     previousRow = currentRow; // Set previous row
                     currentRow ++; // Increment row
@@ -126,8 +105,6 @@
 
             $.each(rowData.rowsItems, function(i, items){
                 _setEqualHeight(items); // Equal height for base row items
-
-
 
                 // Wrap items in rows
                 if(output.settings.wrapRows){
