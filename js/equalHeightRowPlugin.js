@@ -14,12 +14,14 @@
             innerSelectors: null, // Comma seperated element selector for equal height within the items
             wrapRows: false, // Classname to wrap rows in
             resizeTimeout: 150, // Run every 150ms
-            stoppedResizingresizeTimeout: 150, // If stopped resizing 150ms run on resize
-
+            bindOnResize: true, // Wheter to bind the on resize event on init
+            reinitImage: 'all', // Reinitialize when images are loaded ("false" wont't run at all, "all" runs when "all" images are loaded, individual runs at every loaded image)
         }, options);
 
+        var settings = output.settings;
+
         /*
-        *   Equal Height
+        *   Equal Height function
         */
         var _setEqualHeight = function($items){
             var heighest = 0; // Counter
@@ -43,87 +45,97 @@
         /*
         *   Run calculate rows and set equalHeight
         */
-        var _execute = function(element){
-            // Build row data
-            var rowData = {};
-            rowData.selector = $(element);
-            rowData.items = rowData.selector.find(output.settings.itemSelector);
-            rowData.itemAmount = rowData.items.length; // Amount of items
-            rowData.rowsData = {}; // Save rows information
-            rowData.rowsItems = {}; // Save doms
+        var _execute = function(element, callback){
+            /* save current container size */
+            $(element).attr('data-lastcall', parseFloat($(element).css('width')));
 
-            // Counters
-            var previousRow = 0; // Remember previous row
-            var currentRow = 1; // Remember current row
+            /* Initialize variables */
+            var result = {};
+
+            // Constant vars
+            result.selector = $(element);
+            result.items = result.selector.find(settings.itemSelector);
+            result.itemAmount = result.items.length; // Amount of items
+
+            // Row data vars
+            result.rowsDom = []; //* Save rows dom data
+            result.rowsHeight = []; //* Save rows height data
+
+            // Counter vars
+            var currentRow = 1; // Current row iterator
             var itemWidthCount = 0; // Item width counter untill reached row width
-            var containerWidth = parseFloat(rowData.selector.css('width'));
+            var containerWidth = parseFloat(result.selector.css('width'));
+            var rowWidthCounter = 0; //* Counter to check wheter the rows fit in the container
 
-            // Remove the rows wrap so we can calculate new rows
-            if(output.settings.wrapRows || $(rowData.selector).find('[data-type="row"]:nth-child(1)').length > 0){
-                $(rowData.selector).find('[data-type="row"]').contents().unwrap();
+            /* Remove the rows wrap so we can calculate new rows */
+            if(settings.wrapRows || $(result.selector).find('[data-type="row"]:nth-child(1)').length > 0){
+                $(result.selector).find('[data-type="row"]').contents().unwrap();
             }
 
-            /*
-            *   Calculate rows
-            */
-            rowData.items.each(function(i, e){
+            $(result.items).css('height', 'auto'); // Reset height so we can calculate new height
 
-                // Save last item in the row (gets overwritten each item untill reached last)
-                rowData.rowsData['row' + currentRow] = { lastItem : (i + 1) };
+            /* Creating empty row data for the first row */
+            result.rowsDom['row' + currentRow] = []; // Create first new row in rowsData
+            result.rowsHeight['row' + currentRow] = 0; // Init current row height as 0
 
-                // Check if the next item is on a different row
-                var checkNextRow = function(){
-                    var itemWidth = parseFloat( window.getComputedStyle(e).width);
+            result.items.each(function(i, e){
+                // Add the width of the current item to the rowWidthCounter
+                rowWidthCounter = parseFloat(rowWidthCounter + parseFloat($(e).css('width')));
 
-                    var nextItem = rowData.selector.find(output.settings.itemSelector + ':nth-child('+ (i + 2) +')');
-                    var nextItemWidth = (nextItem.length) ? parseFloat( rowData.selector.find(output.settings.itemSelector + ':nth-child('+ (i + 2) +')').css('width') ) : 0;
+                /*
+                    If the current rowWidthCounter is higher then the size of the container it means the current item is on a new row
+                */
+                if(rowWidthCounter > containerWidth){
+                    /*
+                        Start new row
+                    */
+                    currentRow++; // increase row number
+                    rowWidthCounter = parseFloat($(e).css('width')); // Reset rowWidthCounter to rowWidth at this moment
 
-                    // Add current itemWidth to the counter
-                    itemWidthCount = (itemWidthCount + itemWidth);
-                    
-                    return (itemWidthCount >= containerWidth ||  (i + 1) >= rowData.itemAmount && itemWidthCount < containerWidth || Math.floor(itemWidthCount + nextItemWidth) > containerWidth);
-                };
-
-                if(checkNextRow()){
-                    // Calculate first row item
-                    var rowItemDifference = (previousRow == 0) ? rowData.rowsData['row' + currentRow].lastItem : (rowData.rowsData['row' + currentRow].lastItem - rowData.rowsData['row' + previousRow].lastItem);
-                    var firstRowItem = ((rowData.rowsData['row' + currentRow].lastItem - rowItemDifference) + 1);
-                    rowData.rowsData['row' + currentRow].firstItem = firstRowItem; // Set first row item for current row
-
-                    // Find items belonging to current row and save doms as current row
-                    rowData.rowsItems['row' + currentRow] = rowData.items.filter(output.settings.itemSelector + ':nth-child(n+'+ firstRowItem +'):nth-child(-n+'+ rowData.rowsData['row' + currentRow].lastItem +')'); // Set first row item for current row
-
-                    previousRow = currentRow; // Set previous row
-                    currentRow ++; // Increment row
-                    itemWidthCount = 0; // Reset counter so we can start counting for the new row
-                }
-            });
-
-            /*
-            *   Calculate & set height for each required element
-            */
-
-            $.each(rowData.rowsItems, function(i, items){
-                _setEqualHeight(items); // Equal height for base row items
-
-                // Wrap items in rows
-                if(output.settings.wrapRows){
-                    items.wrapAll('<div class="'+ output.settings.wrapRows +' '+ i + '" data-type="row"></div>')
+                    /* Creating empty row data for the current (new) row */
+                    result.rowsDom['row' + currentRow] = [];
+                    result.rowsHeight['row' + currentRow] = 0; // Init current row height as 0
                 }
 
-                // Optional inner selectors
-                if(output.settings.innerSelectors != null){
-                    var innerSelectors = output.settings.innerSelectors.split(',');
+                // Add current item to current row
+                result.rowsDom['row' + currentRow].push(e);
 
-                    // Run equalHeight for every inner selector
-                    $.each(innerSelectors, function(int, selector){
-                        _setEqualHeight(items.find(selector));
-                        _setEqualHeight(items);
+                /*
+                    check if next item is on a next row, if so run equalHeight for the items on this row
+                */
+                if(parseInt(i+1) >= result.itemAmount || parseFloat(rowWidthCounter + parseFloat($(e).next().css('width'))) > containerWidth){
+                    var $currentRowItems = $(result.rowsDom['row' + currentRow]);
+
+                    // Optional inner selectors
+                    if(settings.innerSelectors != null){
+                        var innerSelectors = settings.innerSelectors.split(',');
+
+                        // Run equalHeight for every inner selector
+                        $.each(innerSelectors, function(int, selector){
+                            _setEqualHeight($currentRowItems.find(selector));
+                        });
+                    }
+
+                    $currentRowItems.each(function(i, e){
+                        result.rowsHeight['row' + currentRow] = (parseFloat($(e).css('height')) > result.rowsHeight['row' + currentRow]) ? parseFloat($(e).css('height')) : result.rowsHeight['row' + currentRow];
                     });
+
+                    // set heigt of row items
+                    $currentRowItems.css('height', result.rowsHeight['row' + currentRow] + 'px');
+
+                    /* if wrap rows is enabled wrap rows in row div */
+                    if(settings.wrapRows){
+                        $currentRowItems.wrapAll('<div class="'+ settings.wrapRows +' '+ i + '" data-type="row"></div>')
+                    }
                 }
             });
 
-            return rowData;
+            // Run _execute callback if set
+            if ( $.isFunction( callback ) ) {
+                callback( result );
+            }
+
+            return result;
         };
 
         /*
@@ -138,7 +150,6 @@
 
             // Run _execute() for every element seperate
             _$this.each(function(i, e){
-
                 // Check if execute needs to run for this instance based on the number given
                 if( selector === false || ( selector !== false && $(e).is(selector) ) ){
                     data[i] = _execute($(e));
@@ -153,71 +164,117 @@
         */
         this.each(function(instanceNumber, instanceElement){
             var base = instanceElement;
-            var instance = { data : {}};
 
-            // Counters
-            var timeout = false; // Prevent execute from recalling xx amount of ms
-            var waiting = false; // Wait checker
-            var resizeTimer; // Timer waiting if stopped resizing
+            /*
+            *    Resize functionality
+            */
+            var resizeExecuteTimer;
+            var resizeExecute = function(){
+                if($(base).attr('data-lastcall') != parseFloat($(base).css('width'))){
+                    var data = _execute(instanceElement);
 
-            var run = function(){
-                _execute(instanceElement);
-
-                if ( $.isFunction( output.settings.onResize ) ) {
-                    output.settings.onResize( instance );
+                    if ( $.isFunction( settings.onResize ) ) {
+                        settings.onResize( data );
+                    }
                 }
             };
 
-            $(window).on('resize', function(){
-                var resizeTimeoutTimer;
-                clearTimeout(resizeTimer);
+            if(settings.bindOnResize){
+                $(window).on('resize', function(){
 
-                if(output.settings.resizeTimeout > 0 && output.settings.resizeTimeout !== false){
-                    // If time out is false call run()
-                    if(timeout === false){
-                        run();
-                        timeout = true;
-                        return true; // Allow onResize to callback
-                    }else{
-                        // Check if the timer has run out. If so we may run() again
-                        if(waiting === false){
-                            // Prevent execute from rerunning onResize for xx amount of ms
-                            resizeTimeoutTimer = setTimeout(function(){
-                                timeout = false;
-                                waiting = false;
-                                run();
-                                return true; // Allow onResize to callback
-                            }, output.settings.resizeTimeout);
-                        }
+                    if(settings.resizeTimeout ){
+                        clearTimeout(resizeExecuteTimer);
+                        resizeExecuteTimer = setTimeout(function(){
+                            resizeExecute();
+                        }, settings.resizeTimeout);
 
-                        waiting = true;
+                        return true;
                     }
 
-                    // Make sure we stopped resizing the browser
-                    resizeTimer = setTimeout(function() {
-                        run();
-                        clearTimeout(resizeTimeoutTimer);
+                    resizeExecute();
+                    return true;
+                });
+            }
 
-                        return true; // Allow onResize to callback
-                    }, output.settings.stoppedResizingresizeTimeout);
-                }else{
-                    run();
-                    return true; // Allow onResize to callback
+            /*
+            *   Image on load funcitonality
+            */
+            if(settings.reinitImage){
+                reinitImage = (settings.reinitImage == 'all' || 'individual') ? settings.reinitImage : 'all';
+
+                var imageAmount = $(instanceElement).find('img').length;
+                var imageCouinter = 0;
+
+                /* function to call when all images are loaded */
+                var onLoadAll = function(e){
+                    $(instanceElement).attr('loadedImages', true);
+                    _execute(instanceElement, function(){
+                        setTimeout(function(){
+                            // Take into account the stupid transition bug (make sure if some one uses transitions they will always run)
+                            $(instanceElement).attr('imagereinit', true);
+                        }, 10);
+
+                    });
+                };
+
+                var onLoadIndividual = function(e){
+                    _execute(instanceElement, function(){
+                        setTimeout(function(){
+                            // Take into account the stupid transition bug (make sure if some one uses transitions they will always run)
+                            $(e).attr('imagereinit', true);
+                        }, 50);
+                    });
+                };
+
+                $(instanceElement).find('img').each(function(i, e){
+                    var image = new Image();
+
+                    var handleImage = function(e){
+                        imageCouinter++;
+                        $(e).attr('loaded', true);
+
+                        if(reinitImage == 'individual'){
+                            onLoadIndividual(e);
+
+                            if(imageCouinter >= imageAmount){
+                                $(instanceElement).attr('imagereinit', true);
+                            }
+                        }
+
+                         if(reinitImage == 'all' && imageCouinter >= imageAmount){
+                            onLoadAll(e);
+
+                            $(instanceElement).find('img').attr('imagereinit', true);
+                         }
+                    }
+
+                    image.onload = function () {
+                        handleImage(e);
+                    }
+
+                    image.onerror = function () {
+                       console.error('Cannot load image('+ i +'): '+ $(e).attr('src'));
+                      handleImage(e);
+                    }
+
+                    image.src =$(this).attr('src');
+                });
+            }
+
+            /*
+            *   Run first instance
+            */
+            var __initialize = function(){
+                var data = _execute(instanceElement);
+                console.log(data);
+                if ( $.isFunction( settings.onInit ) ) {
+                    settings.onInit( data);
                 }
 
-                // Prevent returning a onResize if execute did not fire
-                return false;
-            });
-
-            instance.Initialize = function(){
-                instance.data = _execute(instanceElement);
-
-                if ( $.isFunction( output.settings.onInit ) ) {
-                    output.settings.onInit( instance );
-                }
+                return data;
             };
 
-            return instance.Initialize();
+            return __initialize();
         });
 
         return output;
