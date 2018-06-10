@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+        <style type="text/css">
+            *{
+                box-sizing: border-box;
+            }
+
+            html{
+                height :100%;
+            }
+
+            body{
+                margin: 0px;
+                font-family: Arial;
+                color: #000;
+                height: 200%;
+            }
+
+            a{
+                color: #000;
+            }
+
+            h1{
+                color: #000;
+            }
+
+            h2{
+                background: rgba(118, 255, 186, 0.3);
+                margin: 0;
+            }
+
+            img{
+                max-width: 100%;
+                height: auto;
+            }
+
+            p{
+                margin: 10px 0;
+            }
+
+            .text{
+                background: rgba(255, 28, 28, 0.28);
+            }
+
+            .test{
+                margin-bottom: 10px;
+                padding: 10px;
+                color: #FFF;
+            }
+
+            .test a{
+                color: #FFF;
+            }
+
+            .row{
+                overflow: hidden;
+            }
+
+            .row:after {
+              content: "";
+              display: table;
+              clear: both;
+            }
+
+            .sw{
+                max-width: 1000px;
+                margin: 0 auto;
+            }
+
+            #example img, #example2 img{
+                height: 0px;
+                width: 100%;
+                opacity: 0;
+                transition: opacity 1s ease-in;
+            }
+
+            /* reinitImage individual*/
+            #example img[loaded]{
+                height: auto;
+            }
+
+            #example img[imagereinit]{
+                opacity: 1;
+            }
+
+            /* reinitImage all */
+            #example2[loadedimages="true"] img{
+                height: auto;
+            }
+
+            #example2 img[imagereinit]{
+                opacity: 1;
+            }
+
+            @media only screen and (max-width: 900px) {
+                .test{
+                    width: 50% !important;
+                }
+            }
+            @media only screen and (max-width: 600px) {
+                .test{
+                    width: 100% !important;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <!--<div id="information">
+            <div data-name="example">
+                <div class="ran">0</div>
+            </div>
+        </div>-->
+
+        <h1>Example</h1>
+
+        <div class="sw">
+            <h2>Example 1</h2>
+            <div id="example" class="selector1" style="clear: both; overflow: hidden;">
+                <div class="test" style="background: #111; float: left; width: 50%; overflow: hidden;">
+                    <h2>A title</h2>
+                    <p><img src="https://www.otysteama52.nl/_images_upload/americ_15271511085b067a04b3217.png" /></p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
+                </div>
+
+                <div class="test" style="background: #222; float: left; width: 50%; overflow: hidden;">
+                    <h2>A title <br /> on two lines</h2>
+                    <p><img src="http://www.otysteama52.nl/_images_upload/americ_15271511085b067a04b3217.png" /></p>
+                    <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
+                </div>
+
+                <div class="test" style="background: #333; float: left; width: 33.333333%;">
+                    <h2>A title</h2>
+                    <div class="text">
+                        <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
+                        <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
+                    </div>
+                    <span><a href="#">readmore</a></span>
+                </div>
+
+                <div class="test" style="background: #444; float: left; width: 33.333333%;">
+                    <h2>A title which might use multiple rows when scaling</h2>
+                    <div class="text">
+                        <p><img src="https://images.pexels.com/photos/39811/pexels-photo-39811.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=1000&w=6000" /></p>
+                        <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
+                        <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
+                        <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
+                        <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
+                        <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
+                    </div>
+                    <span><a href="#">readmore</a></span>
+                </div>
+
+                <div class="test" style="background: #555; float: left; width: 33.333333%;">
+                    <h2>A title</h2>
+                    <div class="text">
+                        <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
+                    </div>
+                    <span><a href="#">readmore</a></span>
+                </div>
+
+                <div class="test" style="background: #666; float: left; width: 100%;">
+                    <h2>A title</h2>
+                    <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet. Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet. Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet. Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
+                </div>
+
+                <div class="test" style="background: #777;; float: left; width: 50%">
+                  <h2>A title</h2>
+                  <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet. felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet</p>
+                </div>
+
+                <div class="test" style="background: #777;; float: left; width: 50%">
+                    <h2>A title</h2>
+                    <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet. felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet</p>
+                    <p><img src="https://images.pexels.com/photos/39811/pexels-photo-39811.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=1000&w=6000" /></p>
+                </div>
+            </div>
+        </div>
+
+        <div class="sw">
+            <h2>Example 2</h2>
+
+            <div id="example2" class="selector2" style="clear: both; overflow: hidden;">
+                <div class="test" style="background: #111; float: left; width: 50%; overflow: hidden;">
+                    <h2>A title</h2>
+                    <p><img src="https://www.otysteama52.nl/_images_upload/americ_15271511085b067a04b3217.png" /></p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
+                </div>
+
+                <div class="test" style="background: #222; float: left; width: 50%; overflow: hidden;">
+                    <h2>A title <br /> on two lines</h2>
+                    <p><img src="http://www.otysteama52.nl/_images_upload/americ_15271511085b067a04b3217.png" /></p>
+                    <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
+                </div>
+
+                <div class="test" style="background: #666; float: left; width: 100%;">
+                    <h2>A title</h2>
+                    <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet. Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet. Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet. Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
+                </div>
+
+                <div class="test" style="background: #777;; float: left; width: 50%">
+                  <h2>A title</h2>
+                  <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet. felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet</p>
+                </div>
+
+                <div class="test" style="background: #777;; float: left; width: 50%">
+                    <h2>A title</h2>
+                    <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet. felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet</p>
+                    <p><img src="https://images.pexels.com/photos/39811/pexels-photo-39811.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=1000&w=6000" /></p>
+                </div>
+
+                <div class="test" style="background: #333; float: left; width: 33.333333%;">
+                    <h2>A title</h2>
+                    <div class="text">
+                        <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
+                        <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
+                    </div>
+                    <span><a href="#">readmore</a></span>
+                </div>
+
+                <div class="test" style="background: #444; float: left; width: 33.333333%;">
+                    <h2>A title which might use multiple rows when scaling</h2>
+                    <div class="text">
+                        <p><img src="https://images.pexels.com/photos/39811/pexels-photo-39811.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=1000&w=6000" /></p>
+                        <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
+                        <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
+                        <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
+                        <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
+                        <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
+                    </div>
+                    <span><a href="#">readmore</a></span>
+                </div>
+
+                <div class="test" style="background: #555; float: left; width: 33.333333%;">
+                    <h2>A title</h2>
+                    <div class="text">
+                        <p>Proin laoreet, felis in tincidunt iaculis, purus justo rhoncus nisi, id aliquet.</p>
+                    </div>
+                    <span><a href="#">readmore</a></span>
+                </div>
+            </div>
+        </div>
+
+
+        <script src="../js/equalHeightRowPlugin.js" type="text/javascript"></script>
+
+        <script type="text/javascript">
+        var example1 = $('.selector1').equalHeightRows({
+            itemSelector : '.test',
+            innerSelectors : 'h2, .text',
+            wrapRows: 'row',
+            reinitImage: 'individual',
+            onInit : function(e){
+
+                console.log(e);
+            },
+            onResize: function(e){
+                var p = $('#information div[data-name="'+ e.selector.attr("id") +'"]');
+                var cur = (parseInt( p.find('.ran').html() ) + 1);
+                p.find('.ran').html( cur );
+                console.log(e);
+            }
+        });
+        </script>
+
+        <script type="text/javascript">
+        var example2 = $('.selector2').equalHeightRows({
+            itemSelector : '.test',
+            innerSelectors : 'h2, .text',
+            wrapRows: 'row',
+            reinitImage: 'all',
+            onInit : function(e){
+
+                console.log(e);
+            },
+            onResize: function(e){
+                var p = $('#information div[data-name="'+ e.selector.attr("id") +'"]');
+                var cur = (parseInt( p.find('.ran').html() ) + 1);
+                p.find('.ran').html( cur );
+                console.log(e);
+            }
+        });
+        </script>
+    </body>
+</html>
