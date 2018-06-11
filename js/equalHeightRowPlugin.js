@@ -266,7 +266,6 @@
             */
             var __initialize = function(){
                 var data = _execute(instanceElement);
-                console.log(data);
                 if ( $.isFunction( settings.onInit ) ) {
                     settings.onInit( data);
                 }
