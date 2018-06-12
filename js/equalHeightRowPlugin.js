@@ -13,7 +13,8 @@
             itemSelector : '.item', // Class of item within the container selector,
             innerSelectors: null, // Comma seperated element selector for equal height within the items
             wrapRows: false, // Classname to wrap rows in
-            resizeTimeout: 150, // Run every 150ms
+            resizeTimeout: 200, // Run every 150ms
+            throttleTimeout: 300, // Wheter to use throttle or debounce
             bindOnResize: true, // Wheter to bind the on resize event on init
             reinitImage: 'all', // Reinitialize when images are loaded ("false" wont't run at all, "all" runs when "all" images are loaded, individual runs at every loaded image)
         }, options);
@@ -168,7 +169,6 @@
             /*
             *    Resize functionality
             */
-            var resizeExecuteTimer;
             var resizeExecute = function(){
                 if($(base).attr('data-lastcall') != parseFloat($(base).css('width'))){
                     var data = _execute(instanceElement);
@@ -179,20 +179,33 @@
                 }
             };
 
+            var resizeTimer;
+            var resizeBlock = 0;
+
             if(settings.bindOnResize){
                 $(window).on('resize', function(){
 
-                    if(settings.resizeTimeout ){
-                        clearTimeout(resizeExecuteTimer);
-                        resizeExecuteTimer = setTimeout(function(){
+                    if(settings.throttleTimeout && settings.resizeTimeout){
+                        if(resizeBlock <= 0){
+                            resizeBlock++;
                             resizeExecute();
-                        }, settings.resizeTimeout);
+                        }else if(resizeBlock === 1){
+                            resizeBlock++;
 
-                        return true;
+                            setTimeout(function(){
+                                resizeBlock = 0;
+                            }, settings.throttleTimeout);
+                        }
                     }
 
-                    resizeExecute();
-                    return true;
+                    if(settings.resizeTimeout){
+                        clearTimeout(resizeTimer);
+                        resizeTimer = setTimeout(function(){
+                            resizeExecute();
+                        }, settings.resizeTimeout);
+                    }else{
+                        resizeExecute();
+                    }
                 });
             }
 
