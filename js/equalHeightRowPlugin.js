@@ -14,7 +14,7 @@
             innerSelectors: null, // Comma seperated element selector for equal height within the items
             wrapRows: false, // Classname to wrap rows in
             resizeTimeout: 200, // Run every 150ms
-            throttleTimeout: 300, // Wheter to use throttle or debounce
+            throttleTimeout: 300, // Throttle time
             bindOnResize: true, // Wheter to bind the on resize event on init
             reinitImage: 'all', // Reinitialize when images are loaded ("false" wont't run at all, "all" runs when "all" images are loaded, individual runs at every loaded image)
         }, options);
