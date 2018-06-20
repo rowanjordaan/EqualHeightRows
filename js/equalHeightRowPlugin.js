@@ -55,7 +55,7 @@
         */
         var _execute = function(element, callback){
             /* save current container size */
-            $(element).attr('data-lastcall', parseFloat($(element).css('width')));
+            $(element).attr('data-lastcall', parseFloat($(element)[0].getBoundingClientRect().width));
 
             /* Initialize variables */
             var result = {};
@@ -72,7 +72,7 @@
             // Counter vars
             var currentRow = 1; // Current row iterator
             var itemWidthCount = 0; // Item width counter untill reached row width
-            var containerWidth = parseFloat(result.selector.css('width'));
+            var containerWidth = parseFloat(result.selector[0].getBoundingClientRect().width);
             var rowWidthCounter = 0; //* Counter to check wheter the rows fit in the container
 
             /* Remove the rows wrap so we can calculate new rows */
@@ -88,7 +88,7 @@
 
             result.items.each(function(i, e){
                 // Add the width of the current item to the rowWidthCounter
-                rowWidthCounter = parseFloat(rowWidthCounter + parseFloat($(e).css('width')));
+                rowWidthCounter = parseFloat(rowWidthCounter + parseFloat($(e)[0].getBoundingClientRect().width));
 
                 /*
                     If the current rowWidthCounter is higher then the size of the container it means the current item is on a new row
@@ -98,7 +98,7 @@
                         Start new row
                     */
                     currentRow++; // increase row number
-                    rowWidthCounter = parseFloat($(e).css('width')); // Reset rowWidthCounter to rowWidth at this moment
+                    rowWidthCounter = parseFloat($(e)[0].getBoundingClientRect().width); // Reset rowWidthCounter to rowWidth at this moment
 
                     /* Creating empty row data for the current (new) row */
                     result.rowsDom['row' + currentRow] = [];
@@ -111,7 +111,7 @@
                 /*
                     check if next item is on a next row, if so run equalHeight for the items on this row
                 */
-                if(parseInt(i+1) >= result.itemAmount || parseFloat(rowWidthCounter + parseFloat($(e).next().css('width'))) > containerWidth){
+                if(parseInt(i+1) >= result.itemAmount || parseFloat(rowWidthCounter + parseFloat($(e).next()[0].getBoundingClientRect().width)) > containerWidth){
                     var $currentRowItems = $(result.rowsDom['row' + currentRow]);
 
                     // Optional inner selectors
@@ -189,7 +189,7 @@
 
             if(settings.bindOnResize){
                 $(window).on('resize', function(){
-                    if($(base).attr('data-lastcall') != parseFloat($(base).css('width'))){
+                    if($(base).attr('data-lastcall') != parseFloat($(base)[0].getBoundingClientRect().width)){
                         if(!isMobile){
                             if(settings.throttleTimeout && settings.resizeTimeout){
                                 if(resizeBlock <= 0){
