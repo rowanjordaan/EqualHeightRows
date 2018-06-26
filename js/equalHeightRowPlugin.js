@@ -33,7 +33,9 @@
             // Go through each item of current row and remember the heighest item if there's more than one item for peformance
             if($items.length > 1){
                 $items.each(function(){
-                    var itemHeight = $(this).outerHeight();
+                    var itemHeight = parseFloat($(this).outerHeight());
+
+					console.log('test' + itemHeight);
 
                     heighest = (itemHeight >= heighest) ? itemHeight : heighest;
                 });
@@ -125,7 +127,7 @@
                     }
 
                     $currentRowItems.each(function(i, e){
-                        result.rowsHeight['row' + currentRow] = (parseFloat($(e).css('height')) > result.rowsHeight['row' + currentRow]) ? parseFloat($(e).css('height')) : result.rowsHeight['row' + currentRow];
+                        result.rowsHeight['row' + currentRow] = (parseFloat($(e).outerHeight()) > result.rowsHeight['row' + currentRow]) ? parseFloat($(e).outerHeight()) : result.rowsHeight['row' + currentRow];
                     });
 
                     // set heigt of row items
