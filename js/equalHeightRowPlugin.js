@@ -35,8 +35,6 @@
                 $items.each(function(){
                     var itemHeight = parseFloat($(this).outerHeight());
 
-					console.log('test' + itemHeight);
-
                     heighest = (itemHeight >= heighest) ? itemHeight : heighest;
                 });
 
