@@ -65,8 +65,10 @@ $(document).ready(function(){
 | onResize | null | function | Callback on resize |
 | itemSelector | .item | string |Element that acts as Item Selector |
 | innerSelectors | null | string | Elements within the itemSelector to equalHeight aswell. Comma seperated. (example: '.title, .text') will give all the .title divs on the same row the same height and all the .text divs on the same row the same height |
-| resizeTimeout | 150 | int | Prevents rerunning on resize for given amount of milliseconds. Will callback after time is over. |
-| stoppedResizingresizeTimeout | 150 | int | The time in milliseconds after resizing to consider the user has stopped resizing the window |
+| resizeTimeout | 200 | int | The time in milliseconds after resizing to consider the user has stopped resizing the window |
+| throttleTimeout | 300 | int | The time in milliseconds between reinits when resizing |
+| bindOnResize | true | boolean | Wheter to bind the on resize event on init |
+| reinitImage | all | string | all: Reinit when all images are loaded, individual: Reinit after every loaded image, false: don't reinit at all after images are loaded |
 
 
 ### Change option on the fly
