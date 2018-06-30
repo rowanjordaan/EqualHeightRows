@@ -76,21 +76,21 @@ $(document).ready(function(){
 selector.settings.[option] = value;
 ```
 
-### Return
+### Return onInit, onResize
 ```javascript
-[i] : {
-    itemAmount: (int),
-    items : {
-        [i] : { dom },
-    },
-    rowsData : {
-        row[i] : { firstItem : (int), lastItem : (int) }
-    },
-    rowsItems : {
-        row[i] : { doms }
-    },
-    selector : (DOM)
-}
+
+itemAmount: (int),
+items : {
+    [key] : { dom },
+},
+rowsDom : {
+    row[rowNumber] : { [key] : itemDom }
+},
+rowsHeight : {
+    row[rowNumber] : { row[rownumber] : (float)rowHeight }
+},
+selector : (DOM)
+
 ```
 
 ## Callable functions
@@ -117,13 +117,13 @@ selector.settings.[option] = value;
 [i] : {
     itemAmount: (int),
     items : {
-        [i] : { dom },
+        [key] : { dom },
     },
-    rowsData : {
-        row[i] : { firstItem : (int), lastItem : (int) }
+    rowsDom : {
+        row[rowNumber] : { [key] : itemDom }
     },
-    rowsItems : {
-        row[i] : { doms }
+    rowsHeight : {
+        row[rowNumber] : { row[rownumber] : (float)rowHeight }
     },
     selector : (DOM)
 }
