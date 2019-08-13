@@ -105,10 +105,10 @@ selector : (DOM)
         <th>Description</th>
     </tr>
     <tr>
-        <td>(optional)(type string) Selector</td>
-        <td>false</td>
-        <td>dom selector</td>
-        <td>check if instance is selector.</td>
+        <td>-</td>
+        <td>-</td>
+        <td>function</td>
+        <td>use existing instance as selector.</td>
     </tr>
 </table>
 
